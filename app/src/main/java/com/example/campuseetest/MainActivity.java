@@ -15,6 +15,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
     private final static int REQUEST_CODE_1 = 1;
@@ -71,8 +78,66 @@ public class MainActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             // Signed in successfully, show authenticated UI.
-            Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-            startActivity(intent);
+
+
+                String personName = account.getDisplayName();
+                String personGivenName = account.getGivenName();
+                String personFamilyName = account.getFamilyName();
+                String personEmail = account.getEmail();
+                String personId = account.getId();
+
+                String emailKey = personEmail;
+                String nameKey = personName;
+
+
+            final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
+            Query queryToGetData = dbRef.child("Publisher").orderByChild("name").equalTo(nameKey);
+
+            queryToGetData.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(!dataSnapshot.exists()){
+                        Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+                        startActivity(intent);
+                    }
+                    else{
+                        Intent intent = new Intent(MainActivity.this, PublisherHomeActivity.class);
+                        startActivity(intent);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            final DatabaseReference dbRef2 = FirebaseDatabase.getInstance().getReference();
+
+            Query queryToGetData2 = dbRef.child("User").orderByChild("name").equalTo(nameKey);
+
+            queryToGetData.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(!dataSnapshot.exists()){
+                        Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+                        startActivity(intent);
+                    }
+                    else{
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
+
+
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.

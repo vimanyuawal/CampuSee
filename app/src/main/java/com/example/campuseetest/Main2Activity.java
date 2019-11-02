@@ -23,8 +23,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.net.URI;
 
@@ -111,7 +115,20 @@ public class Main2Activity extends AppCompatActivity {
                 Toast.makeText(Main2Activity.this,
                         radioSexButton.getText(), Toast.LENGTH_SHORT).show();
 
-                saveToDatabase(radioSexButton.getText().toString());
+
+
+                    saveToDatabase(radioSexButton.getText().toString());
+
+
+
+                //redirect to user home page if user
+
+
+                //redirect to publisher home page if publisher
+                if(radioSexButton.getText().toString().equals("Publisher")){
+                    Intent intent = new Intent(Main2Activity.this, PublisherHomeActivity.class);
+                    startActivity(intent);
+                }
 
             }
 
@@ -124,13 +141,44 @@ public class Main2Activity extends AppCompatActivity {
 
         if(access.equals("User")) {
             User user = new User(nameKey, emailKey);
-            mUserRef.push().setValue(user);
-            Log.d("a", "Data is being sent to: " + mUserRef);
+
+            //only push if id(email) does not already exist
+            if(mUserRef.child(nameKey)!=null) {
+                mUserRef.push().setValue(user);
+                Log.d("a", "Data is being sent to: " + mUserRef);
+            }
+
         }
         else if(access.equals("Publisher")) {
-            Publisher publisher = new Publisher(nameKey, emailKey);
-            mPublisherRef.push().setValue(publisher);
-            Log.d("a", "Data is being sent to: " + mPublisherRef);
+
+            final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
+            Query queryToGetData = dbRef.child("Publisher").orderByChild("name").equalTo(nameKey);
+
+            queryToGetData.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(!dataSnapshot.exists()){
+                        String userId = dbRef.child("Publisher").push().getKey();
+                        Publisher publisher = new Publisher(nameKey, emailKey);
+                        dbRef.child("Publisher").child(userId).setValue(publisher);
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+//            Publisher publisher = new Publisher(nameKey, emailKey);
+//
+//            //only push if id(email) does not already exist
+//
+//                mPublisherRef.push().setValue(publisher);
+//                Log.d("a", "Data is being sent to: " + mPublisherRef);
+
         }
 
         else{
