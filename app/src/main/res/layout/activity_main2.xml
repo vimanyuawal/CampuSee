@@ -35,9 +35,40 @@
             android:textColor="@color/colorPrimary"
             android:layout_gravity="center"/>
 
+        <RadioGroup
+            android:id="@+id/radioSex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <RadioButton
+                android:id="@+id/User12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/User"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/Publisher12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Publisher" />
+
+        </RadioGroup>
+
+
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btnDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/NEXT"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
+        android:background="@color/colorPrimary"
+        android:textColor="#fff"/>
 
     <Button
         android:layout_width="wrap_content"

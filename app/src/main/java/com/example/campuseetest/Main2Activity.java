@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +34,6 @@ public class Main2Activity extends AppCompatActivity {
     Button sign_out;
     TextView nameTV;
     TextView emailTV;
-    String access = "";
 
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mUserRef = mRootRef.child("User");
@@ -41,16 +42,14 @@ public class Main2Activity extends AppCompatActivity {
     String emailKey = "";
     String nameKey = "";
 
+    private RadioGroup radioSexGroup;
+    private RadioButton radioSexButton;
+    private Button btnDisplay;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-
-//        Intent intent = getIntent();
-//        Bundle b = intent.getBundleExtra("access");
-//        if(b!=null)
-//            access = b.getString("accessBundle");
-
 
         FirebaseApp.initializeApp(this);
 
@@ -83,6 +82,8 @@ public class Main2Activity extends AppCompatActivity {
             this.nameKey = personName;
         }
 
+        addListenerOnButton();
+
         sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,29 +92,60 @@ public class Main2Activity extends AppCompatActivity {
         });
     }
 
+    public void addListenerOnButton() {
+
+        radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
+        btnDisplay = (Button) findViewById(R.id.btnDisplay);
+
+        btnDisplay.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // get selected radio button from radioGroup
+                int selectedId = radioSexGroup.getCheckedRadioButtonId();
+
+                // find the radiobutton by returned id
+                radioSexButton = (RadioButton) findViewById(selectedId);
+
+                Toast.makeText(Main2Activity.this,
+                        radioSexButton.getText(), Toast.LENGTH_SHORT).show();
+
+                saveToDatabase(radioSexButton.getText().toString());
+
+            }
+
+        });
+
+    }
+
+    public void saveToDatabase(String access){
+        emailKey = emailKey.replace('.', ',');
+
+        if(access.equals("User")) {
+            User user = new User(nameKey, emailKey);
+            mUserRef.push().setValue(user);
+            Log.d("a", "Data is being sent to: " + mUserRef);
+        }
+        else if(access.equals("Publisher")) {
+            Publisher publisher = new Publisher(nameKey, emailKey);
+            mPublisherRef.push().setValue(publisher);
+            Log.d("a", "Data is being sent to: " + mPublisherRef);
+        }
+
+        else{
+            Log.d("a", "FUCKED!!!!!!!!!!!!!!!!!!!!!!_"+ access);
+        }
+
+        Log.d("a","Data has been sent to database");
+    }
+
+
     @Override
     public void onStart() {
         super.onStart();
 
-        emailKey = emailKey.replace('.', ',');
 
-        User user = new User(nameKey, emailKey);
-        mUserRef.push().setValue(user);
-
-//        if(access.equals("User")) {
-//            User user = new User(nameKey, emailKey);
-//            mUserRef.push().setValue(user);
-//        }
-//        else if(access.equals("Publisher")) {
-//            Publisher publisher = new Publisher(nameKey, emailKey);
-//            mPublisherRef.push().setValue(publisher);
-//        }
-//
-//        else{
-//            Log.d("a", "FUCKED!!!!!!!!!!!!!!!!!!!!!!");
-//        }
-        Log.d("a", "Data is being sent to: " + mRootRef);
-        Log.d("a","Data has been sent to database");
 
     }
 

@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">CampuSeeTest</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="Publisher">Publisher</string>
+    <string name="User">User</string>
+    <string name="btn_display">btn_display</string>
+    <string name="NEXT">NEXT</string>
 </resources>

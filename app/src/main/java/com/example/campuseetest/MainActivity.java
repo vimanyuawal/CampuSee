@@ -4,9 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,10 +21,6 @@ public class MainActivity extends AppCompatActivity {
     int RC_SIGN_IN = 0;
     SignInButton signInButton;
     GoogleSignInClient mGoogleSignInClient;
-    String access = "";
-//    private RadioGroup radioGroup;
-//    private RadioButton radioButton;
-//    private Button btnDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +29,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Initializing Views
         signInButton = findViewById(R.id.sign_in_button);
-
-
-//        addListenerOnButton();
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -49,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
+
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -79,12 +71,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             // Signed in successfully, show authenticated UI.
-//            access = ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.radio)).getCheckedRadioButtonId())).getText().toString();
-////            Log.i("a", "WE ARE USER TYPE: " + access);
             Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-//            Bundle b = new Bundle();
-//            b.putString("access", access);
-//            intent.putExtra("accessBundle", b);
             startActivity(intent);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
