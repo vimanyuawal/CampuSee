@@ -117,7 +117,7 @@ public class Main2Activity extends AppCompatActivity {
 
 
 
-                    saveToDatabase(radioSexButton.getText().toString());
+                saveToDatabase(radioSexButton.getText().toString());
 
 
 
@@ -137,7 +137,7 @@ public class Main2Activity extends AppCompatActivity {
     }
 
     public void saveToDatabase(String access){
-        emailKey = emailKey.replace('.', ',');
+//        emailKey = emailKey.replace('.', ',');
 
         if(access.equals("User")) {
             User user = new User(nameKey, emailKey);

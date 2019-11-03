@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddEventActivity">
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ScrollView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:orientation="vertical"
+            android:layout_height="fill_parent">
+
+            <!--Put form controls here-->
+            <TextView
+                android:id="@+id/TextViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Event Details Here"
+                android:textSize="10pt">
+            </TextView>
+            <EditText
+                android:id="@+id/eventNameField"
+                android:layout_height="wrap_content"
+                android:hint="Event Name"
+                android:inputType="textPersonName"
+                android:layout_width="fill_parent">
+            </EditText>
+            <EditText
+                android:id="@+id/eventDescriptionField"
+                android:layout_height="wrap_content"
+                android:hint="Event Description"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:layout_width="fill_parent">
+            </EditText>
+            <EditText
+                android:id="@+id/eventLocationField"
+                android:layout_height="wrap_content"
+                android:hint="Event Location"
+                android:inputType="textPersonName"
+                android:layout_width="fill_parent">
+            </EditText>
+            <Button
+                android:id="@+id/ButtonSendFeedback"
+                android:layout_height="wrap_content"
+                android:text="Add Event"
+                android:onClick="sendFeedback"
+                android:layout_width="fill_parent">
+            </Button>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

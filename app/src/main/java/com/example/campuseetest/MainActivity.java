@@ -87,12 +87,12 @@ public class MainActivity extends AppCompatActivity {
                 String personId = account.getId();
 
                 String emailKey = personEmail;
-                String nameKey = personName;
+                final String nameKey = personName;
 
 
             final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
-            Query queryToGetData = dbRef.child("Publisher").orderByChild("name").equalTo(nameKey);
+            Query queryToGetData = dbRef.child("Publisher").orderByChild("email").equalTo(emailKey);
 
             queryToGetData.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -102,7 +102,9 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                     else{
+
                         Intent intent = new Intent(MainActivity.this, PublisherHomeActivity.class);
+                        intent.putExtra("identifier",nameKey);
                         startActivity(intent);
                     }
                 }
