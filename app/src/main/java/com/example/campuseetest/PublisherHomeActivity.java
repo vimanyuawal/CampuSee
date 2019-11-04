@@ -132,9 +132,15 @@ public class PublisherHomeActivity extends AppCompatActivity {
             }
         });
 
-        //Events ArrayList is finished (curEvents)
-//        init();
+        final Button button = findViewById(R.id.button_Add);
 
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent= new Intent(PublisherHomeActivity.this, AddEventActivity.class);
+                intent.putExtra("identifier",identifierVal);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -252,5 +258,21 @@ public class PublisherHomeActivity extends AppCompatActivity {
 
             ll.addView(row);
         }
+
+//        Button b= new Button(this);
+//        b.setText("Whatever");
+//        b.setClickable(true);
+//        b.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent= new Intent(PublisherHomeActivity.this, AddEventActivity.class);
+//                intent.putExtra("identifier",identifierVal);
+//                startActivity(intent);
+//
+//            }
+//        });
+
+
+
     }
 }
