@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EventDescription">
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ScrollView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:orientation="vertical"
+            android:layout_height="fill_parent">
+            <TextView
+                android:id="@+id/TextViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current Event Details"
+                android:textSize="10pt">
+            </TextView>
+
+            <TextView
+                android:id="@+id/nameShowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10pt">
+            </TextView>
+            <TextView
+                android:id="@+id/descriptionShowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10pt">
+            </TextView>
+            <TextView
+                android:id="@+id/locationShowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10pt">
+            </TextView>
+            <Button
+                android:id="@+id/ButtonSendFeedback"
+                android:layout_height="wrap_content"
+                android:text="Interested"
+                android:onClick="sendAddition"
+                android:layout_width="fill_parent">
+            </Button>
+            <Button
+                android:id="@+id/ButtonSendFeedback2"
+                android:layout_height="wrap_content"
+                android:text="Not interested"
+                android:onClick="sendFeedback"
+                android:layout_width="fill_parent">
+            </Button>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

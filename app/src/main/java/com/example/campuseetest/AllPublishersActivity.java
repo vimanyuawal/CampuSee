@@ -3,6 +3,7 @@ package com.example.campuseetest;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -25,6 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -131,7 +134,7 @@ public class AllPublishersActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent= new Intent(AllPublishersActivity.this, PublishersEvents.class);
-                    intent.putExtra("publisherId",identifierVal);
+                    intent.putExtra("publisherId",entry.getValue());
                     startActivity(intent);
 
                 }
@@ -141,17 +144,19 @@ public class AllPublishersActivity extends AppCompatActivity {
             final Button following= new Button(this);
             following.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-
-
             if(myList.contains(entry.getValue())) {
                 following.setText("Unfollow");
                 counter=0;
             }
-            else{
+            else {
                 following.setText("Follow");
                 counter=1;
-
             }
+
+//            final Button unfollowing= new Button(this);
+//            unfollowing.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//            unfollowing.setText("Unfollow");
+
 
             following.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -168,14 +173,35 @@ public class AllPublishersActivity extends AppCompatActivity {
 
                         String test2=entry.getValue();
 
-                        mRootRef.child("User").child(getIntent().getStringExtra(key)).child("Following").child(test).setValue(test2);
+                        mRootRef.child("User").child(key).child("Following").child(test).setValue(test2);
+
+                        Context context = getApplicationContext();
+                        CharSequence text = "Following "+entry.getKey();
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
                     }
                     else{
                         following.setText("Follow");
                         counter=1;
 
-                        //make change in DB
-                        //remove follower
+
+                        String test=entry.getValue();
+                        test=test.replace('.', ',');
+
+                        String key=identifierVal.replace('.', ',');
+
+                        String test2=entry.getValue();
+
+                        mRootRef.child("User").child(key).child("Following").child(test).removeValue();
+
+                        Context context = getApplicationContext();
+                        CharSequence text = "Unfollowing "+entry.getKey();
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
 
                     }
 
@@ -184,6 +210,7 @@ public class AllPublishersActivity extends AppCompatActivity {
 
             row.addView(publisher);
             row.addView(following);
+
 
             ll.addView(row);
         }

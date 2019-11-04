@@ -66,13 +66,14 @@ public class UserHomeActivity extends AppCompatActivity {
 
                         ArrayList<String> curFollow=new ArrayList<String>();
                         for (DataSnapshot datas2: snapshot.getChildren()) {
-                            String x=datas2.child("email").getValue(String.class);
+
+                            String x=datas2.getValue(String.class);
 
                             curFollow.add(x);
                         }
 
                         Intent intent= new Intent(UserHomeActivity.this, AllPublishersActivity.class);
-                        intent.putExtra("identifier",identifierVal);
+
                         intent.putExtra("mylist",curFollow);
                         startActivity(intent);
                     }

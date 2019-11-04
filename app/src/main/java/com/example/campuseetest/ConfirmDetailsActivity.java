@@ -83,11 +83,6 @@ public class ConfirmDetailsActivity extends AppCompatActivity {
         String key=identifierVal.replace('.', ',');
         mPublisherRef.child(key).child("Event").child(nameId).setValue(catchEvent);
 
-        /*
-        *   String key=emailKey.replace('.', ',');
-            Publisher publisher = new Publisher(nameKey, emailKey);
-            mPublisherRef.child(key).setValue(publisher);
-        * */
 
         Intent intent = new Intent(ConfirmDetailsActivity.this, PublisherHomeActivity.class);
         startActivity(intent);
