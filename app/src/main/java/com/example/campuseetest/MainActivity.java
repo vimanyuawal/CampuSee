@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -79,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             // Signed in successfully, show authenticated UI.
 
-
                 String personName = account.getDisplayName();
                 String personGivenName = account.getGivenName();
                 String personFamilyName = account.getFamilyName();
@@ -88,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
 
                 final String emailKey = personEmail;
                 final String nameKey = personName;
-
 
             final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
@@ -112,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 else{
                                     Intent intent2 = new Intent(MainActivity.this, UserHomeActivity.class);
-                                    intent2.putExtra("identifier",nameKey);
                                     startActivity(intent2);
                                 }
                             }
@@ -129,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
                     else{
 
                         Intent intent = new Intent(MainActivity.this, PublisherHomeActivity.class);
-                        intent.putExtra("identifier",nameKey);
                         startActivity(intent);
                     }
                 }
@@ -139,11 +133,6 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
-
-
-
-
-
 
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.

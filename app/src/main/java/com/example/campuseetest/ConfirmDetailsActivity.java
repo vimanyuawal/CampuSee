@@ -8,6 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseError;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +30,9 @@ public class ConfirmDetailsActivity extends AppCompatActivity {
     String descriptionId="";
     String locationId="";
     String identifierVal="";
+    GoogleSignInClient mGoogleSignInClient;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +41,21 @@ public class ConfirmDetailsActivity extends AppCompatActivity {
         nameId = getIntent().getStringExtra("NAME_ID");
         descriptionId = getIntent().getStringExtra("DESCRIPTION_ID");
         locationId = getIntent().getStringExtra("LOCATION_ID");
-        identifierVal=getIntent().getStringExtra("identifier");
+
+        FirebaseApp.initializeApp(this);
+
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        // Build a GoogleSignInClient with the options specified by gso.
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(ConfirmDetailsActivity.this);
+
+        identifierVal=acct.getEmail();
 
         TextView showName=(TextView)findViewById(R.id.nameShowing);
         showName.setText("Event Name: "+nameId);
@@ -52,46 +74,22 @@ public class ConfirmDetailsActivity extends AppCompatActivity {
 
     public void sendAddition(View button) {
 
-        final Event catchEvent=new Event(nameId,descriptionId,0,null,locationId);
+        Event catchEvent=new Event(nameId,descriptionId,0,null,locationId);
 
-        final DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
 
         DatabaseReference mPublisherRef = mRootRef.child("Publisher");
 
-        mPublisherRef.orderByChild("name").equalTo(identifierVal).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot datas: dataSnapshot.getChildren()) {
+        String key=identifierVal.replace('.', ',');
+        mPublisherRef.child(key).child("Event").child(nameId).setValue(catchEvent);
 
-                    //datas.getKey()
-                    String eventID = mRootRef.child("Publisher").child(datas.getKey()).child("Event").push().getKey();
-                    mRootRef.child("Publisher").child(datas.getKey()).child("Event").child(eventID).setValue(catchEvent);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-
-            }
-        });
-
-
-
-
-
-
-
-
-
-
+        /*
+        *   String key=emailKey.replace('.', ',');
+            Publisher publisher = new Publisher(nameKey, emailKey);
+            mPublisherRef.child(key).setValue(publisher);
+        * */
 
         Intent intent = new Intent(ConfirmDetailsActivity.this, PublisherHomeActivity.class);
-//        intent.putExtra("identifier",identifierVal);
         startActivity(intent);
-
-
     }
-
-
 }

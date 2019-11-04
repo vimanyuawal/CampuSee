@@ -1,5 +1,6 @@
 package com.example.campuseetest;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,6 +13,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserHomeActivity extends AppCompatActivity {
 
@@ -23,8 +32,6 @@ public class UserHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
-
-        identifierVal = getIntent().getStringExtra("identifier");
 
         FirebaseApp.initializeApp(this);
 
@@ -41,15 +48,40 @@ public class UserHomeActivity extends AppCompatActivity {
 
         identifierVal=acct.getDisplayName();
 
-
         //set a button to see all publishers
         final Button button = findViewById(R.id.publishers_id);
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent= new Intent(UserHomeActivity.this, AllPublishersActivity.class);
-                intent.putExtra("identifier",identifierVal);
-                startActivity(intent);
+
+                DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+
+                String key=identifierVal.replace('.', ',');
+                DatabaseReference mFollowersRef=mRootRef.child("User").child(key).child("Following").getRef();
+
+                mFollowersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String xyz="";
+
+                        ArrayList<String> curFollow=new ArrayList<String>();
+                        for (DataSnapshot datas2: snapshot.getChildren()) {
+                            String x=datas2.child("email").getValue(String.class);
+
+                            curFollow.add(x);
+                        }
+
+                        Intent intent= new Intent(UserHomeActivity.this, AllPublishersActivity.class);
+                        intent.putExtra("identifier",identifierVal);
+                        intent.putExtra("mylist",curFollow);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
     }

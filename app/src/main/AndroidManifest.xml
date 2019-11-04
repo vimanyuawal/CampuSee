@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AllPublishersActivity"></activity>
+        <activity android:name=".EditEvent"></activity>
+        <activity android:name=".PublishersEvents" />
+        <activity android:name=".AllPublishersActivity" />
         <activity android:name=".UserHomeActivity" />
         <activity android:name=".ConfirmDetailsActivity" />
         <activity android:name=".AddEventActivity" />

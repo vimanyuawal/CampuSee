@@ -115,11 +115,7 @@ public class Main2Activity extends AppCompatActivity {
                 Toast.makeText(Main2Activity.this,
                         radioSexButton.getText(), Toast.LENGTH_SHORT).show();
 
-
-
                 saveToDatabase(radioSexButton.getText().toString());
-
-
 
                 //redirect to user home page if user
 
@@ -144,51 +140,14 @@ public class Main2Activity extends AppCompatActivity {
 //        emailKey = emailKey.replace('.', ',');
 
         if(access.equals("User")) {
-            final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-
-            Query queryToGetData = dbRef.child("User").orderByChild("name").equalTo(nameKey);
-
-            queryToGetData.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(!dataSnapshot.exists()){
-                        String userId = dbRef.child("Publisher").push().getKey();
-                        User user = new User(nameKey, emailKey);
-                        dbRef.child("User").child(userId).setValue(user);
-
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
+            String key=emailKey.replace('.', ',');
+            User user = new User(nameKey, emailKey);
+            mUserRef.child(key).setValue(user);
         }
         else if(access.equals("Publisher")) {
-
-            final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-
-            Query queryToGetData = dbRef.child("Publisher").orderByChild("name").equalTo(nameKey);
-
-            queryToGetData.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(!dataSnapshot.exists()){
-                        String userId = dbRef.child("Publisher").push().getKey();
-                        Publisher publisher = new Publisher(nameKey, emailKey);
-                        dbRef.child("Publisher").child(userId).setValue(publisher);
-
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
+            String key=emailKey.replace('.', ',');
+            Publisher publisher = new Publisher(nameKey, emailKey);
+            mPublisherRef.child(key).setValue(publisher);
         }
 
         else{
@@ -202,9 +161,6 @@ public class Main2Activity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-
-
-
     }
 
     private void signOut() {
