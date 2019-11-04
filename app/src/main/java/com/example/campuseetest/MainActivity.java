@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 String personEmail = account.getEmail();
                 String personId = account.getId();
 
-                String emailKey = personEmail;
+                final String emailKey = personEmail;
                 final String nameKey = personName;
 
 
@@ -98,8 +98,33 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(!dataSnapshot.exists()){
-                        Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-                        startActivity(intent);
+
+                        final DatabaseReference dbRef2 = FirebaseDatabase.getInstance().getReference();
+
+                        Query queryToGetData2 = dbRef2.child("User").orderByChild("email").equalTo(emailKey);
+
+                        queryToGetData2.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot2) {
+                                if(!dataSnapshot2.exists()){
+                                    Intent intent2 = new Intent(MainActivity.this, Main2Activity.class);
+                                    startActivity(intent2);
+                                }
+                                else{
+                                    Intent intent2 = new Intent(MainActivity.this, UserHomeActivity.class);
+                                    intent2.putExtra("identifier",nameKey);
+                                    startActivity(intent2);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+//                        Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+//                        startActivity(intent);
                     }
                     else{
 
@@ -115,27 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            final DatabaseReference dbRef2 = FirebaseDatabase.getInstance().getReference();
 
-            Query queryToGetData2 = dbRef.child("User").orderByChild("name").equalTo(nameKey);
-
-            queryToGetData.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(!dataSnapshot.exists()){
-                        Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-                        startActivity(intent);
-                    }
-                    else{
-
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
 
 
 

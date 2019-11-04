@@ -166,15 +166,15 @@ public class PublisherHomeActivity extends AppCompatActivity {
         locationTitle.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
         locationTitle.setWidth(50);
 
-//        TextView attendees= new TextView(this);
-//        attendees.setText("Attendees");
-//        attendees.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
-//        attendees.setWidth(20);
+        TextView attendees= new TextView(this);
+        attendees.setText("Attendees");
+        attendees.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
+        attendees.setWidth(50);
 
         row.addView(eventTitle);
         row.addView(timeTitle);
         row.addView(locationTitle);
-//        row.addView(attendees);
+        row.addView(attendees);
 
 
         ll.addView(row);
@@ -232,15 +232,15 @@ public class PublisherHomeActivity extends AppCompatActivity {
                 date.setAutoSizeTextTypeUniformWithConfiguration(7,25,1,1);
             }
 
-//            TextView numAttend= new TextView(this);
-//            numAttend.setText(curEvents.get(i).getAttendees());
-//
-//
-//
-//            numAttend.setWidth(50);
-//            numAttend.setMaxLines(1);
-//            numAttend.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
-//            numAttend.setPadding(12,12,12,12);
+            TextView numAttend= new TextView(this);
+            numAttend.setText(Integer.toString(curEvents.get(i).getAttendees()));
+
+
+
+            numAttend.setWidth(50);
+            numAttend.setMaxLines(1);
+            numAttend.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
+            numAttend.setPadding(12,12,12,12);
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //                numAttend.setAutoSizeTextTypeUniformWithConfiguration(7,25,1,1);
 //            }
@@ -248,7 +248,7 @@ public class PublisherHomeActivity extends AppCompatActivity {
             row.addView(event);
             row.addView(location);
             row.addView(date);
-//            row.addView(numAttend);
+            row.addView(numAttend);
 
             ll.addView(row);
         }

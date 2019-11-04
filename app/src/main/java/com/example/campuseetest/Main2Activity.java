@@ -129,6 +129,10 @@ public class Main2Activity extends AppCompatActivity {
                     Intent intent = new Intent(Main2Activity.this, PublisherHomeActivity.class);
                     startActivity(intent);
                 }
+                else if(radioSexButton.getText().toString().equals("User")){
+                    Intent intent = new Intent(Main2Activity.this, UserHomeActivity.class);
+                    startActivity(intent);
+                }
 
             }
 
@@ -140,13 +144,26 @@ public class Main2Activity extends AppCompatActivity {
 //        emailKey = emailKey.replace('.', ',');
 
         if(access.equals("User")) {
-            User user = new User(nameKey, emailKey);
+            final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
-            //only push if id(email) does not already exist
-            if(mUserRef.child(nameKey)!=null) {
-                mUserRef.push().setValue(user);
-                Log.d("a", "Data is being sent to: " + mUserRef);
-            }
+            Query queryToGetData = dbRef.child("User").orderByChild("name").equalTo(nameKey);
+
+            queryToGetData.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(!dataSnapshot.exists()){
+                        String userId = dbRef.child("Publisher").push().getKey();
+                        User user = new User(nameKey, emailKey);
+                        dbRef.child("User").child(userId).setValue(user);
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
 
         }
         else if(access.equals("Publisher")) {
@@ -171,13 +188,6 @@ public class Main2Activity extends AppCompatActivity {
 
                 }
             });
-
-//            Publisher publisher = new Publisher(nameKey, emailKey);
-//
-//            //only push if id(email) does not already exist
-//
-//                mPublisherRef.push().setValue(publisher);
-//                Log.d("a", "Data is being sent to: " + mPublisherRef);
 
         }
 
