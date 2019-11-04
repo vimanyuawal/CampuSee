@@ -3,6 +3,17 @@
     package="com.example.campuseetest">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"           />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Grant the location access permission -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+
+
 
     <application
         android:allowBackup="true"
@@ -11,10 +22,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EventDescription"></activity>
-        <activity android:name=".EditEvent" />
-        <activity android:name=".PublishersEvents" />
-        <activity android:name=".AllPublishersActivity" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAQ8M_rVC4Cqzf8AuHfm8PiKxEv5irugPQ" />
+
+        <receiver android:name=".GeofenceBroadcastReceiver"/>
+
+        <activity android:name=".AllPublishersActivity"></activity>
         <activity android:name=".UserHomeActivity" />
         <activity android:name=".ConfirmDetailsActivity" />
         <activity android:name=".AddEventActivity" />

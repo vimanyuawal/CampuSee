@@ -1,12 +1,24 @@
 package com.example.campuseetest;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -14,8 +26,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingClient;
+import com.google.android.gms.location.GeofencingRequest;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,16 +46,46 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.AbstractSequentialList;
+import java.util.ArrayList;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
 public class MainActivity extends AppCompatActivity {
     private final static int REQUEST_CODE_1 = 1;
+    private static final int REQUEST_LOCATION = 123;
+    private static final int PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 123;
     int RC_SIGN_IN = 0;
     SignInButton signInButton;
     GoogleSignInClient mGoogleSignInClient;
+    private FusedLocationProviderClient fusedLocationClient;
+    Location userLocation;
+    private GeofencingClient geofencingClient;
+    ArrayList<Geofence> geofenceList = new ArrayList<Geofence>();
+    private PendingIntent geofencePendingIntent;
+    GeofencingRequest geofencingRequest;
+
+    private static final String TAG = "GeofenceManager";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        geofencingClient = LocationServices.getGeofencingClient(this);
+
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
+
+            requestLocationPermission();
+        }
+
+        getUserLocation();
+
 
         //Initializing Views
         signInButton = findViewById(R.id.sign_in_button);
@@ -46,6 +99,13 @@ public class MainActivity extends AppCompatActivity {
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
+        Log.d("DEBUG MESSAGE", "Everything is fine till here" + fusedLocationClient.toString());
+
+
+
+        createGeofence();
+        addGeofence();
+
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,6 +113,151 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private PendingIntent getGeofencePendingIntent() {
+        // Reuse the PendingIntent if we already have it.
+        if (geofencePendingIntent != null) {
+            return geofencePendingIntent;
+        }
+
+
+        Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
+        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
+        // calling addGeofences() and removeGeofences().
+
+        geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.
+                FLAG_UPDATE_CURRENT);
+
+
+        return geofencePendingIntent;
+    }
+
+    private GeofencingRequest getGeofencingRequest() {
+        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+        builder.addGeofences(geofenceList);
+
+        return builder.build();
+    }
+
+    public void createGeofence() {
+        //1st region
+        geofenceList.add(new Geofence.Builder()
+                // Set the request ID of the geofence. This is a string to identify this
+                // geofence.
+                .setRequestId("RTH")
+
+                .setCircularRegion(
+                        34.020377,
+                        -118.289958,
+                        1000.0f
+                )
+                .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
+                        Geofence.GEOFENCE_TRANSITION_EXIT)
+                .build());
+        Log.d("a", "Geofence built: " + geofenceList.get(0).toString());
+
+    }
+
+
+    private void addGeofence() {
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+
+            geofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
+                    .addOnSuccessListener(this, new OnSuccessListener<Void>() {
+
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("a", "Added Geofence");
+                            Toast.makeText(MainActivity.this, "Added Geofence", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(this, new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("a", "Error Adding Geofence: ", e);
+                            Toast.makeText(MainActivity.this, "Error adding Geofence", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+        }
+    }
+
+    private void requestLocationPermission() {
+        if ( ContextCompat.checkSelfPermission( this, ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+
+            // Should we show an explanation?
+            if ( ActivityCompat.shouldShowRequestPermissionRationale( this, ACCESS_FINE_LOCATION ) ) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new AlertDialog.Builder(this)
+                        .setTitle("Location Permission Needed")
+                        .setMessage("This app needs the Location permission, please accept to use location functionality")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions( MainActivity.this, new String[]{ACCESS_FINE_LOCATION}, REQUEST_LOCATION );
+                            }
+                        })
+                        .create()
+                        .show();
+                getUserLocation();
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions( this, new String[]{ACCESS_FINE_LOCATION}, REQUEST_LOCATION );
+                getUserLocation();
+            }
+
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if (requestCode == REQUEST_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if ( ActivityCompat.checkSelfPermission( this, ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED ) {
+
+                }
+            }
+        }
+    }
+
+    public void getUserLocation() {
+
+        Log.d("DEBUG MESSAGE", "222Everything is fine till here");
+
+
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            double latitude = location.getLatitude();
+                            double longitude = location.getLongitude();
+                            Log.d("a", "User longitude is: " + longitude + " and user latitude is " + latitude);
+                        }
+                    }
+                });
+        fusedLocationClient.getLastLocation().addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("failure","Failed miserable because of: "+ e.toString());
+            }
+        });
+
+    }
+
 
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -77,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             // Signed in successfully, show authenticated UI.
 
+
                 String personName = account.getDisplayName();
                 String personGivenName = account.getGivenName();
                 String personFamilyName = account.getFamilyName();
@@ -85,6 +291,7 @@ public class MainActivity extends AppCompatActivity {
 
                 final String emailKey = personEmail;
                 final String nameKey = personName;
+
 
             final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
@@ -108,6 +315,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 else{
                                     Intent intent2 = new Intent(MainActivity.this, UserHomeActivity.class);
+                                    intent2.putExtra("identifier",nameKey);
                                     startActivity(intent2);
                                 }
                             }
@@ -124,6 +332,7 @@ public class MainActivity extends AppCompatActivity {
                     else{
 
                         Intent intent = new Intent(MainActivity.this, PublisherHomeActivity.class);
+                        intent.putExtra("identifier",nameKey);
                         startActivity(intent);
                     }
                 }
@@ -142,17 +351,4 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-//    @Override
-//    protected void onStart() {
-//        // Check for existing Google Sign In account, if the user is already signed in
-//        // the GoogleSignInAccount will be non-null.
-//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//        if(account != null) {
-//            Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-//            intent.putExtra("access", access);
-//            startActivityForResult(intent, REQUEST_CODE_1);
-//        }
-//        super.onStart();
-//    }
 }
