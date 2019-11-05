@@ -187,9 +187,22 @@ public class PublishersEvents extends AppCompatActivity {
                 date.setAutoSizeTextTypeUniformWithConfiguration(7,25,1,1);
             }
 
+            TextView numAttend=new TextView(this);
+            numAttend.setText(curEvents.get(i).getAttendees());
+
+            numAttend.setWidth(50);
+            numAttend.setMaxLines(1);
+            numAttend.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
+            numAttend.setPadding(12,12,12,12);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                numAttend.setAutoSizeTextTypeUniformWithConfiguration(7,25,1,1);
+            }
+
+
             row.addView(event);
             row.addView(location);
             row.addView(date);
+
 
 
             ll.addView(row);

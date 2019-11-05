@@ -146,8 +146,10 @@ public class Main2Activity extends AppCompatActivity {
         }
         else if(access.equals("Publisher")) {
             String key=emailKey.replace('.', ',');
-            Publisher publisher = new Publisher(nameKey, emailKey);
-            mPublisherRef.child(key).setValue(publisher);
+
+            mPublisherRef.child(key).child("name").setValue(nameKey);
+            mPublisherRef.child(key).child("email").setValue(emailKey);
+            mPublisherRef.child(key).child("attendees").setValue(0);
         }
 
         else{

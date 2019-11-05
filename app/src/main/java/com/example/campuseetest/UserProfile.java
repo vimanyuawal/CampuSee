@@ -6,13 +6,17 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -23,6 +27,8 @@ public class UserProfile  extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     String name = "";
     String email = "";
+
+    Button sign_out;
 
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mUserRef = mRootRef.child("User");
@@ -55,6 +61,15 @@ public class UserProfile  extends AppCompatActivity {
         EditText et = (EditText) findViewById(R.id.plain_text_input);
         et.setText(name);
 
+        sign_out = findViewById(R.id.log_out);
+
+        sign_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signOut();
+            }
+        });
+
 
         Button button2=findViewById(R.id.commit_profile_change);
 
@@ -72,7 +87,17 @@ public class UserProfile  extends AppCompatActivity {
 
     }
 
-
+    private void signOut() {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(UserProfile.this,"Successfully signed out",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(UserProfile.this, MainActivity.class));
+                        finish();
+                    }
+                });
+    }
 
 
 }
