@@ -5,54 +5,70 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GeofenceBroadcastReceiver extends BroadcastReceiver {
     // ...
+    String TAG = "BroadCast";
+    private String userEmail;
+    GoogleSignInClient mGoogleSignInClient;
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("d", "Did i get here?");
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         if (geofencingEvent.hasError()) {
-            String errorMessage = "whoops";
-            Log.e("", errorMessage);
             return;
         }
 
-        Log.d("d", "Did i get here?");
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
 
+        // Build a GoogleSignInClient with the options specified by gso.
+        mGoogleSignInClient = GoogleSignIn.getClient(context, gso);
+
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(context);
+
+        userEmail = acct.getEmail();
+        String key = userEmail.replace('.', ',');
+
+        Log.d(TAG, "In on receive");
         // Get the transition type.
         int geofenceTransition = geofencingEvent.getGeofenceTransition();
 
-        Log.d("a", "transition: " + geofenceTransition);
-        Log.d("a", "transition: " + Geofence.GEOFENCE_TRANSITION_ENTER);
-        Log.d("a", "transition: " + Geofence.GEOFENCE_TRANSITION_EXIT);
-
-
         // Test that the reported transition was of interest.
-        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
-                geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
+        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
 
             // Get the geofences that were triggered. A single event can trigger
             // multiple geofences.
-            List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
 
-            // Get the transition details as a String.
-            String geofenceTransitionDetails = "damn " + triggeringGeofences;
+                List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
+                Log.d(TAG, triggeringGeofences.get(0).toString());
 
+                DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+                root.child("User").child(key).child("Location").setValue(triggeringGeofences.get(0).getRequestId());
 
-            // Send notification and log the transition details.
-            Log.d("a", geofenceTransitionDetails);
-            sendNotification(geofenceTransitionDetails);
+        }
 
-        } else {
+        else if(geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
+
+        }
+
+        else {
             // Log the error.
-            Log.e("", "Didn't make it");
         }
     }
 

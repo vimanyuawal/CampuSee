@@ -105,5 +105,13 @@ public class UserHomeActivity extends AppCompatActivity {
                 });
             }
         });
+
+        Button notifs = findViewById(R.id.notifcations);
+        notifs.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent= new Intent(UserHomeActivity.this, NotificationsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

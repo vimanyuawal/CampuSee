@@ -5,4 +5,5 @@
     <string name="User">User</string>
     <string name="btn_display">btn_display</string>
     <string name="NEXT">NEXT</string>
+    <string name="title_activity_notifications">NotificationsActivity</string>
 </resources>

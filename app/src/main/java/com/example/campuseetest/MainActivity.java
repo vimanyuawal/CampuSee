@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.drive.Drive;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Geofence> geofenceList = new ArrayList<Geofence>();
     private PendingIntent geofencePendingIntent;
     GeofencingRequest geofencingRequest;
+    private GoogleApiClient mGoogleApiClient;
 
     private static final String TAG = "GeofenceManager";
 
@@ -71,18 +74,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        geofencingClient = LocationServices.getGeofencingClient(this);
-
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
-
-            requestLocationPermission();
-        }
-
-        getUserLocation();
 
 
         //Initializing Views
@@ -97,8 +88,14 @@ public class MainActivity extends AppCompatActivity {
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        Log.d("DEBUG MESSAGE", "Everything is fine till here" + fusedLocationClient.toString());
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        geofencingClient = LocationServices.getGeofencingClient(this);
 
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
+
+            requestLocationPermission();
+        }
 
 
         createGeofence("RTH", -118.289958, 34.020377, 50);
@@ -113,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private PendingIntent getGeofencePendingIntent() {
         // Reuse the PendingIntent if we already have it.
@@ -130,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
                 FLAG_UPDATE_CURRENT);
         Log.d("a", "Got broadcast back: ");
 
+        if(geofencePendingIntent == null){
+            Log.d("a", "Null pending intent");
+        }
 
         return geofencePendingIntent;
     }
@@ -141,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "builder: " + builder.build().getGeofences().toString());
 
+
         return builder.build();
     }
 
@@ -149,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         geofenceList.add(new Geofence.Builder()
                 // Set the request ID of the geofence. This is a string to identify this
                 // geofence.
-                .setRequestId("RTH")
+                .setRequestId(requestID)
 
                 .setCircularRegion(
                         latitude,
@@ -170,16 +172,12 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
 
-            final GeofencingRequest a = getGeofencingRequest();
 
-            final PendingIntent b = getGeofencePendingIntent();
-                    
-            geofencingClient.addGeofences(a, b)
-                    .addOnSuccessListener(this, new OnSuccessListener<Void>() {
+            geofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
+                    .addOnSuccessListener(MainActivity.this, new OnSuccessListener<Void>() {
 
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Log.d("a", "Added Geofence: " + a + "   " + b);
                             Toast.makeText(MainActivity.this, "Added Geofence", Toast.LENGTH_SHORT).show();
                         }
                     })

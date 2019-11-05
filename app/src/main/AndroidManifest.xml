@@ -3,17 +3,13 @@
     package="com.example.campuseetest">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"           />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Grant the location access permission -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Grant the location access permission -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-
-
-
 
     <application
         android:allowBackup="true"
@@ -22,27 +18,35 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".NotificationsActivity"
+            android:label="@string/title_activity_notifications"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <activity android:name=".UserHomeActivity"></activity>
-        <activity android:name=".PubsIFollow"></activity>
+
+        <activity android:name=".UserHomeActivity" />
+        <activity android:name=".PubsIFollow" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAQ8M_rVC4Cqzf8AuHfm8PiKxEv5irugPQ" />
 
-        <receiver android:name=".GeofenceBroadcastReceiver" android:enabled="true" android:exported="true" />
+        <receiver
+            android:name=".GeofenceBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true" />
 
-        <activity android:name=".AllPublishersActivity"></activity>
+        <activity android:name=".AllPublishersActivity" />
         <activity android:name=".ConfirmDetailsActivity" />
         <activity android:name=".AddEventActivity" />
         <activity android:name=".PublisherHomeActivity" />
         <activity android:name=".PublishersEvents" />
         <activity android:name=".EditEvent" />
-        <activity android:name=".UserProfile"></activity>
-        <activity android:name=".EventDescription"></activity>
+        <activity android:name=".UserProfile" />
+        <activity android:name=".EventDescription" />
         <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2"
