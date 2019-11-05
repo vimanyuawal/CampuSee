@@ -28,6 +28,8 @@ public class UserHomeActivity extends AppCompatActivity {
 
     GoogleSignInClient mGoogleSignInClient;
 
+//    private FusedLocationProviderClient fusedLocationClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,25 @@ public class UserHomeActivity extends AppCompatActivity {
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(UserHomeActivity.this);
 
-        identifierVal=acct.getDisplayName();
+        identifierVal=acct.getEmail();
+
+        Button button2=findViewById(R.id.my_publishers_id);
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent= new Intent(UserHomeActivity.this, PubsIFollow.class);
+                startActivity(intent);
+            }
+        });
+
+        Button button3=findViewById(R.id.edit_user);
+
+        button3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent= new Intent(UserHomeActivity.this, UserProfile.class);
+                startActivity(intent);
+            }
+        });
 
         //set a button to see all publishers
         final Button button = findViewById(R.id.publishers_id);

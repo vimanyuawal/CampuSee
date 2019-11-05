@@ -62,7 +62,7 @@ public class AllPublishersActivity extends AppCompatActivity {
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(AllPublishersActivity.this);
 
-        identifierVal = acct.getDisplayName();
+        identifierVal = acct.getEmail();
 
         mRootRef = FirebaseDatabase.getInstance().getReference();
 

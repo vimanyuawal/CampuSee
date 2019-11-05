@@ -26,6 +26,8 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <activity android:name=".UserHomeActivity"></activity>
+        <activity android:name=".PubsIFollow"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -34,10 +36,11 @@
         <receiver android:name=".GeofenceBroadcastReceiver" android:enabled="true" android:exported="true" />
 
         <activity android:name=".AllPublishersActivity"></activity>
-        <activity android:name=".UserHomeActivity" />
         <activity android:name=".ConfirmDetailsActivity" />
         <activity android:name=".AddEventActivity" />
         <activity android:name=".PublisherHomeActivity" />
+        <activity android:name=".PublishersEvents" />
+        <activity android:name=".EditEvent" />
         <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2"

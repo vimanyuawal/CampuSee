@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         createGeofence("RTH", -118.289958, 34.020377, 50);
         createGeofence("THH", -118.284505, 34.022333, 50);
-        createGeofence("JFF", -118.289958, 34.018923, 50);
+        createGeofence("JFF", -118.2824, 34.0187, 50);
         addGeofence();
 
         signInButton.setOnClickListener(new View.OnClickListener() {
