@@ -42,6 +42,7 @@
         <activity android:name=".PublishersEvents" />
         <activity android:name=".EditEvent" />
         <activity android:name=".UserProfile"></activity>
+        <activity android:name=".EventDescription"></activity>
         <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2"

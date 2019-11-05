@@ -42,19 +42,12 @@
                 android:textSize="10pt">
             </TextView>
             <Button
-                android:id="@+id/ButtonSendFeedback"
+                android:id="@+id/Following"
                 android:layout_height="wrap_content"
-                android:text="Interested"
                 android:onClick="sendAddition"
                 android:layout_width="fill_parent">
             </Button>
-            <Button
-                android:id="@+id/ButtonSendFeedback2"
-                android:layout_height="wrap_content"
-                android:text="Not interested"
-                android:onClick="sendFeedback"
-                android:layout_width="fill_parent">
-            </Button>
+
 
         </LinearLayout>
     </ScrollView>

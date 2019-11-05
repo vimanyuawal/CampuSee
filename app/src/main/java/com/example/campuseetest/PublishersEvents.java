@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
@@ -34,6 +35,7 @@ public class PublishersEvents extends AppCompatActivity {
     String identifierVal;
 
     GoogleSignInClient mGoogleSignInClient;
+    GoogleSignInAccount acct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class PublishersEvents extends AppCompatActivity {
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(PublishersEvents.this);
+        acct = GoogleSignIn.getLastSignedInAccount(PublishersEvents.this);
 
 
         Context context = getApplicationContext();
@@ -158,12 +160,44 @@ public class PublishersEvents extends AppCompatActivity {
             event.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent= new Intent(PublishersEvents.this, EventDescription.class);
-                    intent.putExtra("eventName",myName);
-                    intent.putExtra("eventDescription",myDescription);
-                    intent.putExtra("eventLocation",myLocation);
-                    startActivity(intent);
 
+                    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+
+                    String key=acct.getEmail().replace('.', ',');
+                    DatabaseReference mInterestedRef=mRootRef.child("User").child(key).child("Going");
+
+                    Log.d("Key", key);
+
+                    mInterestedRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+                            ArrayList<String> curFollow=new ArrayList<String>();
+
+                            Log.d("checking children", Long.toString(snapshot.getChildrenCount()));
+
+                            for (DataSnapshot datas2: snapshot.getChildren()) {
+
+                                String x=datas2.getValue(String.class);
+
+                                curFollow.add(x);
+                            }
+
+                            Intent intent= new Intent(PublishersEvents.this, EventDescription.class);
+                            intent.putExtra("eventName",myName);
+                            intent.putExtra("eventDescription",myDescription);
+                            intent.putExtra("eventLocation",myLocation);
+                            intent.putExtra("mylist",curFollow);
+                            intent.putExtra("publisherId",identifierVal);
+                            startActivity(intent);
+
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
             });
             TextView location= new TextView(this);
