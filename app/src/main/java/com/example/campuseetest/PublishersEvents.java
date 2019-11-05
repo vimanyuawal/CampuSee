@@ -82,7 +82,7 @@ public class PublishersEvents extends AppCompatActivity {
                     String x=datas2.child("eventName").getValue(String.class);
                     xyz+=x+" ";
 
-                    Event current=new Event(datas2.child("eventName").getValue(String.class),datas2.child("description").getValue(String.class),datas2.child("attendees").getValue(int.class),null,datas2.child("location").getValue(String.class));
+                    Event current=new Event(datas2.child("eventName").getValue(String.class),datas2.child("description").getValue(String.class),datas2.child("attendees").getValue(Integer.class),null,datas2.child("location").getValue(String.class));
 
                     curEvents.add(current);
                 }
@@ -188,7 +188,7 @@ public class PublishersEvents extends AppCompatActivity {
             }
 
             TextView numAttend=new TextView(this);
-            numAttend.setText(curEvents.get(i).getAttendees());
+            numAttend.setText(Integer.toString(curEvents.get(i).getAttendees()));
 
             numAttend.setWidth(50);
             numAttend.setMaxLines(1);
@@ -202,7 +202,7 @@ public class PublishersEvents extends AppCompatActivity {
             row.addView(event);
             row.addView(location);
             row.addView(date);
-
+            row.addView(numAttend);
 
 
             ll.addView(row);

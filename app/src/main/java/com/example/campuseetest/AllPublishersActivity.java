@@ -42,8 +42,6 @@ public class AllPublishersActivity extends AppCompatActivity {
 
     DatabaseReference mRootRef;
 
-    int counter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,11 +144,11 @@ public class AllPublishersActivity extends AppCompatActivity {
 
             if(myList.contains(entry.getValue())) {
                 following.setText("Unfollow");
-                counter=0;
+//                counter=0;
             }
             else {
                 following.setText("Follow");
-                counter=1;
+//                counter=1;
             }
 
 //            final Button unfollowing= new Button(this);
@@ -161,9 +159,9 @@ public class AllPublishersActivity extends AppCompatActivity {
             following.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(counter==1) {
+                    if(following.getText().equals("Follow")) {
                         following.setText("Unfollow");
-                        counter=0;
+//                        counter=0;
 
 
                         String test=entry.getValue();
@@ -184,7 +182,7 @@ public class AllPublishersActivity extends AppCompatActivity {
                     }
                     else{
                         following.setText("Follow");
-                        counter=1;
+//                        counter=1;
 
 
                         String test=entry.getValue();
