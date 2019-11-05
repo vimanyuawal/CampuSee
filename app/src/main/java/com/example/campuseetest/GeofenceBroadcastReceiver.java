@@ -9,6 +9,7 @@ import android.util.Log;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GeofenceBroadcastReceiver extends BroadcastReceiver {
@@ -42,7 +43,8 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
             List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
 
             // Get the transition details as a String.
-            String geofenceTransitionDetails = "we in boyysssss";
+            String geofenceTransitionDetails = "damn " + triggeringGeofences;
+
 
             // Send notification and log the transition details.
             Log.d("a", geofenceTransitionDetails);

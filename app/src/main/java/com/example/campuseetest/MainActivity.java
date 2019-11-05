@@ -52,9 +52,7 @@ import java.util.ArrayList;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainActivity extends AppCompatActivity {
-    private final static int REQUEST_CODE_1 = 1;
     private static final int REQUEST_LOCATION = 123;
-    private static final int PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 123;
     int RC_SIGN_IN = 0;
     SignInButton signInButton;
     GoogleSignInClient mGoogleSignInClient;
@@ -103,7 +101,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        createGeofence();
+        createGeofence("RTH", -118.289958, 34.020377, 50);
+        createGeofence("THH", -118.284505, 34.022333, 50);
+        createGeofence("JFF", -118.289958, 34.018923, 50);
         addGeofence();
 
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -120,13 +120,15 @@ public class MainActivity extends AppCompatActivity {
             return geofencePendingIntent;
         }
 
+        Log.d("a", "Setting up intent");
 
-        Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
+        Intent intent = new Intent(MainActivity.this, GeofenceBroadcastReceiver.class);
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
         // calling addGeofences() and removeGeofences().
-
+        Log.d("a", "Broadcasting intent");
         geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.
                 FLAG_UPDATE_CURRENT);
+        Log.d("a", "Got broadcast back: ");
 
 
         return geofencePendingIntent;
@@ -137,10 +139,12 @@ public class MainActivity extends AppCompatActivity {
         builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
         builder.addGeofences(geofenceList);
 
+        Log.d(TAG, "builder: " + builder.build().getGeofences().toString());
+
         return builder.build();
     }
 
-    public void createGeofence() {
+    public void createGeofence(String requestID, double longitude, double latitude, int radius) {
         //1st region
         geofenceList.add(new Geofence.Builder()
                 // Set the request ID of the geofence. This is a string to identify this
@@ -148,15 +152,15 @@ public class MainActivity extends AppCompatActivity {
                 .setRequestId("RTH")
 
                 .setCircularRegion(
-                        34.020377,
-                        -118.289958,
-                        1000.0f
+                        latitude,
+                        longitude,
+                        radius
                 )
                 .setExpirationDuration(Geofence.NEVER_EXPIRE)
                 .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
                         Geofence.GEOFENCE_TRANSITION_EXIT)
                 .build());
-        Log.d("a", "Geofence built: " + geofenceList.get(0).toString());
+
 
     }
 
@@ -166,12 +170,16 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
 
-            geofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
+            final GeofencingRequest a = getGeofencingRequest();
+
+            final PendingIntent b = getGeofencePendingIntent();
+                    
+            geofencingClient.addGeofences(a, b)
                     .addOnSuccessListener(this, new OnSuccessListener<Void>() {
 
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Log.d("a", "Added Geofence");
+                            Log.d("a", "Added Geofence: " + a + "   " + b);
                             Toast.makeText(MainActivity.this, "Added Geofence", Toast.LENGTH_SHORT).show();
                         }
                     })
