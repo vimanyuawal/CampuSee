@@ -26,13 +26,6 @@
                 android:textSize="10pt">
             </TextView>
             <EditText
-                android:id="@+id/eventNameField"
-                android:layout_height="wrap_content"
-                android:hint="Event Name"
-                android:inputType="textPersonName"
-                android:layout_width="fill_parent">
-            </EditText>
-            <EditText
                 android:id="@+id/eventDescriptionField"
                 android:layout_height="wrap_content"
                 android:hint="Event Description"

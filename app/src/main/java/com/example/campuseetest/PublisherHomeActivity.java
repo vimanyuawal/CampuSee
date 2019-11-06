@@ -171,11 +171,21 @@ public class PublisherHomeActivity extends AppCompatActivity {
                 event.setAutoSizeTextTypeUniformWithConfiguration(7,25,1,1);
             }
             event.setClickable(true);
+
+            final String nameC=curEvents.get(i).getEventName();
+            final String desC=curEvents.get(i).getDescription();
+            final String locC=curEvents.get(i).getLocation();
+
+
             event.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent= new Intent(PublisherHomeActivity.this, AddEventActivity.class);
-                    intent.putExtra("identifier",identifierVal);
+                    Intent intent= new Intent(PublisherHomeActivity.this, EditEvent.class);
+
+                    intent.putExtra("eName",nameC);
+                    intent.putExtra("eDesC",desC);
+                    intent.putExtra("eLocC",locC);
+
                     startActivity(intent);
 
                 }

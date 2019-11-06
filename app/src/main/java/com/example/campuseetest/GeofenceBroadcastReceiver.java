@@ -56,7 +56,10 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
             // multiple geofences.
 
                 List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
-                Log.d(TAG, triggeringGeofences.get(0).toString());
+
+                Log.d(TAG, "Entire triggeringGeofences: " + triggeringGeofences.toString());
+
+                Log.d(TAG, "Entering geofence: " + triggeringGeofences.get(0).toString());
 
                 DatabaseReference root = FirebaseDatabase.getInstance().getReference();
                 root.child("User").child(key).child("Location").setValue(triggeringGeofences.get(0).getRequestId());
@@ -64,6 +67,11 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
         }
 
         else if(geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
+            List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
+            Log.d(TAG, "Leaving geofence " + triggeringGeofences.get(0).toString());
+
+            DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+            root.child("User").child(key).child("Location").setValue("outside");
 
         }
 

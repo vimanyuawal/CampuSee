@@ -31,7 +31,11 @@ public class EditEvent extends AppCompatActivity {
     //identifier of the publisher AKA datas.getKey()
     String userID;
 
-    String eventID;
+    String nameC;
+    String desC;
+    String locC;
+
+    String key;
 
     GoogleSignInClient mGoogleSignInClient;
 
@@ -39,9 +43,6 @@ public class EditEvent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_event);
-
-        identifierVal = getIntent().getStringExtra("identifier");
-        userID=getIntent().getStringExtra("uniquePub");
 
         FirebaseApp.initializeApp(this);
 
@@ -56,42 +57,21 @@ public class EditEvent extends AppCompatActivity {
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(EditEvent.this);
 
+        nameC=getIntent().getStringExtra("eName");
+        desC=getIntent().getStringExtra("eDesC");
+        locC=getIntent().getStringExtra("eLocC");
+
+        key=acct.getEmail().replace('.', ',');
+
         final DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference mEventsRef=mRootRef.child("Publisher").child(userID).child("Event").getRef();
+        DatabaseReference mEventsRef=mRootRef.child("Publisher").child(key).child("Event").getRef();
 
-        mEventsRef.orderByChild("eventName").equalTo(identifierVal).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot datas: dataSnapshot.getChildren()) {
-
-                    eventID=datas.getKey();
-
-                    //get particular event details
-                    String curName=datas.child("eventName").getValue(String.class);
-                    String curLocation=datas.child("location").getValue(String.class);
-                    String curDescription=datas.child("description").getValue(String.class);
-
-                    //Show these details in a form -> init() function
-                    init(curName,curDescription,curLocation);
-
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-
-            }
-        });
+        init(nameC,desC,locC);
     }
 
     public void init(String curName, String curDescription, String curLocation){
 
         //text inside an EditText
-        EditText editText1 = (EditText)findViewById(R.id.eventNameField);
-        editText1.setText(curName, TextView.BufferType.EDITABLE);
-
         EditText editText2 = (EditText)findViewById(R.id.eventDescriptionField);
         editText2.setText(curDescription, TextView.BufferType.EDITABLE);
 
@@ -106,9 +86,6 @@ public class EditEvent extends AppCompatActivity {
 
         //Step 1: Send to confirm details page
 
-        final EditText nameField = (EditText) findViewById(R.id.eventNameField);
-        String name = nameField.getText().toString();
-
         final EditText descriptionField = (EditText) findViewById(R.id.eventDescriptionField);
         String description = descriptionField.getText().toString();
 
@@ -119,11 +96,10 @@ public class EditEvent extends AppCompatActivity {
         //need to use .setValue
         DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
 
-        DatabaseReference mEventsRef=mRootRef.child("Publisher").child(userID).child("Event").getRef();
+        DatabaseReference mEventsRef=mRootRef.child("Publisher").child(key).child("Event").getRef();
 
-        mEventsRef.child(eventID).child("eventName").setValue(name);
-        mEventsRef.child(eventID).child("description").setValue(description);
-        mEventsRef.child(eventID).child("location").setValue(location);
+        mEventsRef.child(nameC).child("description").setValue(description);
+        mEventsRef.child(nameC).child("location").setValue(location);
 
 
         //redirect to Publisher Home Page
@@ -131,9 +107,4 @@ public class EditEvent extends AppCompatActivity {
         startActivity(intent);
 
     }
-
-
-
-
-
 }

@@ -97,10 +97,12 @@ public class MainActivity extends AppCompatActivity {
             requestLocationPermission();
         }
 
+        getUserLocation();
 
+        createGeofence("JFF", -118.2824, 34.0187, 50);
         createGeofence("RTH", -118.289958, 34.020377, 50);
         createGeofence("THH", -118.284505, 34.022333, 50);
-        createGeofence("JFF", -118.2824, 34.0187, 50);
+
         addGeofence();
 
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
         builder.addGeofences(geofenceList);
 
-        Log.d(TAG, "builder: " + builder.build().getGeofences().toString());
+        Log.d(TAG, "builder: " + geofenceList.toString());
 
 
         return builder.build();
