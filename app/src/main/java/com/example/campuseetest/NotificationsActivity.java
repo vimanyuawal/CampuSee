@@ -15,6 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
@@ -56,11 +57,22 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class NotificationsActivity extends AppCompatActivity {
 
 
+    private static final int REQUEST_LOCATION = 123;
+    int RC_SIGN_IN = 0;
+    SignInButton signInButton;
+    GoogleSignInClient mGoogleSignInClient;
+    private FusedLocationProviderClient fusedLocationClient;
+    Location userLocation;
+    private GeofencingClient geofencingClient;
+    ArrayList<Geofence> geofenceList = new ArrayList<Geofence>();
+    private PendingIntent geofencePendingIntent;
+    GeofencingRequest geofencingRequest;
+    private GoogleApiClient mGoogleApiClient;
+
+
     private static final String TAG = "Notification";
     String locationIdentifier = "";
-    GoogleSignInClient mGoogleSignInClient;
 
-    ArrayList<String> matchedEvents=new ArrayList<String>();
 
     Date currentTime = Calendar.getInstance().getTime();
 
@@ -75,6 +87,23 @@ public class NotificationsActivity extends AppCompatActivity {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        geofencingClient = LocationServices.getGeofencingClient(this);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
+
+            requestLocationPermission();
+        }
+
+        getUserLocation();
+
+        createGeofence("JFF", -118.2824, 34.0187, 50);
+        createGeofence("RTH", -118.289958, 34.020377, 50);
+        createGeofence("THH", -118.284505, 34.022333, 50);
+
+        addGeofence();
 
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -132,19 +161,19 @@ public class NotificationsActivity extends AppCompatActivity {
                                     for(DataSnapshot datas2: dataSnapshot.getChildren()){
                                         String location=datas2.child("location").getValue(String.class);
 
-
                                         if(location.equals(locationIdentifier)){
                                             event[0] = (datas2.child("eventName").getValue(String.class));
                                             String dt = datas2.child("dateTime").getValue(String.class);
                                             Date date1;
                                             try {
-                                                date1 = new SimpleDateFormat("dd/MM/yyyy HH:MM:SS").parse(dt);
+
+                                                date1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(dt);
                                                 if(date1.compareTo(currentTime) > 0){
+                                                    Log.d(TAG, "currentTime: "+currentTime+" event time: "+date1);
                                                     tester=datas2.child("eventName").getValue(String.class);
+                                                    printEvents(tester);
                                                 }
-                                                else {
-                                                    tester = "notanevent";
-                                                }
+
                                             } catch (ParseException e) {
                                                 e.printStackTrace();
                                             }
@@ -152,10 +181,9 @@ public class NotificationsActivity extends AppCompatActivity {
 
                                         }
                                     }
-                                    matchedEvents.add(event[0]);
                                     //Continue here
-                                    if(!tester.equals("notanevent"))
-                                        printEvents(tester);
+
+
                                 }
 
                                 @Override
@@ -230,5 +258,156 @@ public class NotificationsActivity extends AppCompatActivity {
 //        }
 
     }
+
+    private PendingIntent getGeofencePendingIntent() {
+        // Reuse the PendingIntent if we already have it.
+        if (geofencePendingIntent != null) {
+            return geofencePendingIntent;
+        }
+
+        Log.d("a", "Setting up intent");
+
+        Intent intent = new Intent(NotificationsActivity.this, GeofenceBroadcastReceiver.class);
+        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
+        // calling addGeofences() and removeGeofences().
+        Log.d("a", "Broadcasting intent");
+        geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.
+                FLAG_UPDATE_CURRENT);
+        Log.d("a", "Got broadcast back: ");
+
+        if(geofencePendingIntent == null){
+            Log.d("a", "Null pending intent");
+        }
+
+        return geofencePendingIntent;
+    }
+
+    private GeofencingRequest getGeofencingRequest() {
+        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+        builder.addGeofences(geofenceList);
+
+        Log.d(TAG, "builder: " + geofenceList.toString());
+
+
+        return builder.build();
+    }
+
+    public void createGeofence(String requestID, double longitude, double latitude, int radius) {
+        //1st region
+        geofenceList.add(new Geofence.Builder()
+                // Set the request ID of the geofence. This is a string to identify this
+                // geofence.
+                .setRequestId(requestID)
+
+                .setCircularRegion(
+                        latitude,
+                        longitude,
+                        radius
+                )
+                .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
+                        Geofence.GEOFENCE_TRANSITION_EXIT)
+                .build());
+
+
+    }
+
+
+    private void addGeofence() {
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+
+
+            geofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
+                    .addOnSuccessListener(this, new OnSuccessListener<Void>() {
+
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                        }
+                    })
+                    .addOnFailureListener(this, new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("a", "Error Adding Geofence: ", e);
+                        }
+                    });
+
+        }
+    }
+
+    private void requestLocationPermission() {
+        if ( ContextCompat.checkSelfPermission( this, ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+
+            // Should we show an explanation?
+            if ( ActivityCompat.shouldShowRequestPermissionRationale( this, ACCESS_FINE_LOCATION ) ) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new AlertDialog.Builder(this)
+                        .setTitle("Location Permission Needed")
+                        .setMessage("This app needs the Location permission, please accept to use location functionality")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions( NotificationsActivity.this, new String[]{ACCESS_FINE_LOCATION}, REQUEST_LOCATION );
+                            }
+                        })
+                        .create()
+                        .show();
+                getUserLocation();
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions( this, new String[]{ACCESS_FINE_LOCATION}, REQUEST_LOCATION );
+                getUserLocation();
+            }
+
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if (requestCode == REQUEST_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if ( ActivityCompat.checkSelfPermission( this, ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED ) {
+
+                }
+            }
+        }
+    }
+
+    public void getUserLocation() {
+
+        Log.d("DEBUG MESSAGE", "222Everything is fine till here");
+
+
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            double latitude = location.getLatitude();
+                            double longitude = location.getLongitude();
+                            Log.d("a", "User longitude is: " + longitude + " and user latitude is " + latitude);
+                        }
+                    }
+                });
+        fusedLocationClient.getLastLocation().addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("failure","Failed miserable because of: "+ e.toString());
+            }
+        });
+
+    }
+
 }
 

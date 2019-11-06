@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -209,8 +210,54 @@ public class PublishersEvents extends AppCompatActivity {
                     });
                 }
             });
+
+
             TextView location= new TextView(this);
-            location.setText(curEvents.get(i).getLocation());
+
+            String setterTextTwo=curEvents.get(i).getLocation();
+            SpannableString contentTwo=new SpannableString(setterTextTwo);
+            contentTwo.setSpan(new UnderlineSpan(),0,setterTextTwo.length(),0);
+
+
+            location.setText(contentTwo);
+
+            location.setClickable(true);
+
+
+            final String locationTest=curEvents.get(i).getLocation();
+
+            final String locationComparable=location.getText().toString();
+
+            location.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    if (locationTest.equals("RTH")) {
+                        Uri gmmIntentUri = Uri.parse("geo:34.020377,-118.289958?q=" + Uri.encode("RTH"));
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+                        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(mapIntent);
+                        }
+                    } else if (locationComparable.equals("THH")) {
+                        Uri gmmIntentUri = Uri.parse("geo:34.022333,-118.284505?q=" + Uri.encode("THH"));
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+                        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(mapIntent);
+                        }
+                    } else if (locationComparable.equals("JFF")) {
+                        Uri gmmIntentUri = Uri.parse("geo:34.0187,-118.2824?q=" + Uri.encode("JFF"));
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+                        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(mapIntent);
+                        }
+                    }
+                }
+            });
+
             location.setWidth(50);
             location.setMaxLines(1);
             location.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
