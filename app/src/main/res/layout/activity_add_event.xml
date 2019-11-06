@@ -125,8 +125,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:inputType="date"
-        android:text="@string/enter_date"
+
+        android:text="yyyy/MM/dd HH:mm:ss"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -34,6 +34,7 @@ public class EditEvent extends AppCompatActivity {
     String nameC;
     String desC;
     String locC;
+    String dateC;
 
     String key;
 
@@ -60,24 +61,32 @@ public class EditEvent extends AppCompatActivity {
         nameC=getIntent().getStringExtra("eName");
         desC=getIntent().getStringExtra("eDesC");
         locC=getIntent().getStringExtra("eLocC");
+        dateC=getIntent().getStringExtra("eDateC");
 
         key=acct.getEmail().replace('.', ',');
 
         final DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
         DatabaseReference mEventsRef=mRootRef.child("Publisher").child(key).child("Event").getRef();
 
-        init(nameC,desC,locC);
+        init(nameC,desC,locC,dateC);
     }
 
-    public void init(String curName, String curDescription, String curLocation){
+    public void init(String curName, String curDescription, String curLocation, String curDateTime){
 
         //text inside an EditText
+        TextView editText1 = (TextView) findViewById(R.id.eventNameField);
+        editText1.setText("Event Name= "+curName, TextView.BufferType.EDITABLE);
+        editText1.setTextSize(18);
+
         EditText editText2 = (EditText)findViewById(R.id.eventDescriptionField);
         editText2.setText(curDescription, TextView.BufferType.EDITABLE);
 
-        EditText editText3 = (EditText)findViewById(R.id.eventLocationField);
-        editText3.setText(curLocation, TextView.BufferType.EDITABLE);
+        TextView editText3 = (TextView) findViewById(R.id.eventLocationField);
+        editText3.setText("Event Location= "+curLocation, TextView.BufferType.EDITABLE);
+        editText3.setTextSize(18);
 
+        EditText editText4 = (EditText)findViewById(R.id.eventDateTimeField);
+        editText4.setText(curDateTime, TextView.BufferType.EDITABLE);
     }
 
     //when you click "Done" button the entries are updated
@@ -89,8 +98,8 @@ public class EditEvent extends AppCompatActivity {
         final EditText descriptionField = (EditText) findViewById(R.id.eventDescriptionField);
         String description = descriptionField.getText().toString();
 
-        final EditText LocationField = (EditText) findViewById(R.id.eventLocationField);
-        String location = LocationField.getText().toString();
+        final EditText DateTimeField = (EditText) findViewById(R.id.eventDateTimeField);
+        String dateTime = DateTimeField.getText().toString();
 
         //update data
         //need to use .setValue
@@ -99,8 +108,8 @@ public class EditEvent extends AppCompatActivity {
         DatabaseReference mEventsRef=mRootRef.child("Publisher").child(key).child("Event").getRef();
 
         mEventsRef.child(nameC).child("description").setValue(description);
-        mEventsRef.child(nameC).child("location").setValue(location);
-
+//        mEventsRef.child(nameC).child("location").setValue(location);
+        mEventsRef.child(nameC).child("dateTime").setValue(dateTime);
 
         //redirect to Publisher Home Page
         Intent intent = new Intent(EditEvent.this, PublisherHomeActivity.class);

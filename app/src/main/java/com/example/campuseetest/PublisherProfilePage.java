@@ -7,7 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -28,6 +31,8 @@ public class PublisherProfilePage extends AppCompatActivity {
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mPubRef = mRootRef.child("Publisher");
     String key;
+
+    Button sign_out;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +60,16 @@ public class PublisherProfilePage extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
 
-        TextView name = (TextView) findViewById(R.id.editText);
+        sign_out = findViewById(R.id.log_out);
+
+        sign_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signOut();
+            }
+        });
+
+        EditText name = (EditText) findViewById(R.id.editText);
         TextView email= (TextView) findViewById(R.id.editText2);
 
         key = acct.getEmail().replace('.', ',');
@@ -106,6 +120,18 @@ public class PublisherProfilePage extends AppCompatActivity {
             }
         });
         
+    }
+
+    private void signOut() {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(PublisherProfilePage.this,"Successfully signed out",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(PublisherProfilePage.this, MainActivity.class));
+                        finish();
+                    }
+                });
     }
 
 }

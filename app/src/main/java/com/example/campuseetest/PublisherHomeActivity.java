@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -81,7 +83,7 @@ public class PublisherHomeActivity extends AppCompatActivity {
                     String x=datas2.child("eventName").getValue(String.class);
                     xyz+=x+" ";
 
-                    Event current=new Event(datas2.child("eventName").getValue(String.class),datas2.child("description").getValue(String.class),datas2.child("attendees").getValue(int.class),null,datas2.child("location").getValue(String.class));
+                    Event current=new Event(datas2.child("eventName").getValue(String.class),datas2.child("description").getValue(String.class),datas2.child("attendees").getValue(int.class),datas2.child("dateTime").getValue(String.class),datas2.child("location").getValue(String.class));
 
                     curEvents.add(current);
                 }
@@ -174,12 +176,20 @@ public class PublisherHomeActivity extends AppCompatActivity {
 
 
             TextView event= new TextView(this);
-            event.setText(curEvents.get(i).getEventName());
+
+            String setterText=curEvents.get(i).getEventName();
+            SpannableString content=new SpannableString(setterText);
+            content.setSpan(new UnderlineSpan(),0,setterText.length(),0);
+
+            event.setText(content);
+
+
             event.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
 
             event.setWidth(50);
             event.setMaxLines(1);
             event.setPadding(12,12,12,12);
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 event.setAutoSizeTextTypeUniformWithConfiguration(7,25,1,1);
             }
@@ -188,6 +198,7 @@ public class PublisherHomeActivity extends AppCompatActivity {
             final String nameC=curEvents.get(i).getEventName();
             final String desC=curEvents.get(i).getDescription();
             final String locC=curEvents.get(i).getLocation();
+            final String dateC=curEvents.get(i).getDateTime();
 
 
             event.setOnClickListener(new View.OnClickListener() {
@@ -198,6 +209,7 @@ public class PublisherHomeActivity extends AppCompatActivity {
                     intent.putExtra("eName",nameC);
                     intent.putExtra("eDesC",desC);
                     intent.putExtra("eLocC",locC);
+                    intent.putExtra("eDateC",dateC);
 
                     startActivity(intent);
 
@@ -214,11 +226,12 @@ public class PublisherHomeActivity extends AppCompatActivity {
             }
 
             TextView date= new TextView(this);
-            date.setText("11/2/2019 7:00 PM");
+            date.setText(curEvents.get(i).getDateTime());
 
             date.setWidth(50);
             date.setMaxLines(1);
             date.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
+
             date.setPadding(12,12,12,12);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 date.setAutoSizeTextTypeUniformWithConfiguration(7,25,1,1);

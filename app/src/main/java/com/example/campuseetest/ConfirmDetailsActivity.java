@@ -22,6 +22,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ConfirmDetailsActivity extends AppCompatActivity {
@@ -30,6 +33,7 @@ public class ConfirmDetailsActivity extends AppCompatActivity {
     String descriptionId="";
     String locationId="";
     String identifierVal="";
+    String dateTimeId="";
     GoogleSignInClient mGoogleSignInClient;
 
 
@@ -41,6 +45,7 @@ public class ConfirmDetailsActivity extends AppCompatActivity {
         nameId = getIntent().getStringExtra("NAME_ID");
         descriptionId = getIntent().getStringExtra("DESCRIPTION_ID");
         locationId = getIntent().getStringExtra("LOCATION_ID");
+        dateTimeId=getIntent().getStringExtra("DATE_ID");
 
         FirebaseApp.initializeApp(this);
 
@@ -65,6 +70,9 @@ public class ConfirmDetailsActivity extends AppCompatActivity {
 
         TextView showLoc=(TextView)findViewById(R.id.locationShowing);
         showLoc.setText("Event Location: "+locationId);
+
+        TextView showDate=(TextView)findViewById(R.id.dateShowing);
+        showDate.setText("Date & Time: "+dateTimeId);
     }
 
     public void sendFeedback(View button) {
@@ -74,7 +82,11 @@ public class ConfirmDetailsActivity extends AppCompatActivity {
 
     public void sendAddition(View button) {
 
-        Event catchEvent=new Event(nameId,descriptionId,0,null,locationId);
+        DateFormat dateFormat = new SimpleDateFormat(dateTimeId);
+        Date date = new Date();
+        String strDate = dateFormat.format(date).toString();
+
+        Event catchEvent=new Event(nameId,descriptionId,0,dateTimeId,locationId);
 
         DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
 

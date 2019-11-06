@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +86,7 @@ public class PublishersEvents extends AppCompatActivity {
                     String x=datas2.child("eventName").getValue(String.class);
                     xyz+=x+" ";
 
-                    Event current=new Event(datas2.child("eventName").getValue(String.class),datas2.child("description").getValue(String.class),datas2.child("attendees").getValue(Integer.class),null,datas2.child("location").getValue(String.class));
+                    Event current=new Event(datas2.child("eventName").getValue(String.class),datas2.child("description").getValue(String.class),datas2.child("attendees").getValue(Integer.class),datas2.child("dateTime").getValue(String.class),datas2.child("location").getValue(String.class));
 
                     curEvents.add(current);
                 }
@@ -141,7 +143,12 @@ public class PublishersEvents extends AppCompatActivity {
 
 
             TextView event= new TextView(this);
-            event.setText(curEvents.get(i).getEventName());
+
+            String setterText=curEvents.get(i).getEventName();
+            SpannableString content=new SpannableString(setterText);
+            content.setSpan(new UnderlineSpan(),0,setterText.length(),0);
+
+            event.setText(content);
             event.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
 
             event.setWidth(50);
@@ -155,6 +162,7 @@ public class PublishersEvents extends AppCompatActivity {
             final String myName=curEvents.get(i).getEventName();
             final String myDescription=curEvents.get(i).getDescription();
             final String myLocation=curEvents.get(i).getLocation();
+            final String myDateTime=curEvents.get(i).getDateTime();
 
 
             event.setOnClickListener(new View.OnClickListener() {
@@ -190,6 +198,7 @@ public class PublishersEvents extends AppCompatActivity {
                             intent.putExtra("eventLocation",myLocation);
                             intent.putExtra("mylist",curFollow);
                             intent.putExtra("publisherId",identifierVal);
+                            intent.putExtra("dateTimeId",myDateTime);
                             startActivity(intent);
 
                         }
@@ -211,7 +220,7 @@ public class PublishersEvents extends AppCompatActivity {
             }
 
             TextView date= new TextView(this);
-            date.setText("11/2/2019 7:00 PM");
+            date.setText(curEvents.get(i).getDateTime());
 
             date.setWidth(50);
             date.setMaxLines(1);

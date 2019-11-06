@@ -32,6 +32,7 @@ public class EventDescription extends AppCompatActivity {
     String eventName;
     String eventDescription;
     String eventLocation;
+    String eventDateTime;
 
     String publisherIdentifier;
 
@@ -62,6 +63,7 @@ public class EventDescription extends AppCompatActivity {
         eventName = getIntent().getStringExtra("eventName");
         eventDescription= getIntent().getStringExtra("eventDescription");
         eventLocation=getIntent().getStringExtra("eventLocation");
+        eventDateTime=getIntent().getStringExtra("dateTimeId");
 
         TextView showName=(TextView)findViewById(R.id.nameShowing);
         showName.setText("Event Name: "+eventName);
@@ -71,6 +73,9 @@ public class EventDescription extends AppCompatActivity {
 
         TextView showLoc=(TextView)findViewById(R.id.locationShowing);
         showLoc.setText("Event Location: "+eventLocation);
+
+        TextView showDateTime=(TextView)findViewById(R.id.dateTimeShowing);
+        showLoc.setText("Event Date and Time: "+eventDateTime);
 
         final Button following= (Button)findViewById(R.id.Following);
 

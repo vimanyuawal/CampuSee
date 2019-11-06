@@ -73,12 +73,7 @@ public class PubsIFollow extends AppCompatActivity {
                     test=test+x+"\n";
                 }
 
-//                Context context = getApplicationContext();
-//                CharSequence text = test;
-//                int duration = Toast.LENGTH_SHORT;
-//
-//                Toast toast = Toast.makeText(context, text, duration);
-//                toast.show();
+
 
                 TextView tv = (TextView)findViewById(R.id.TextViewTitle);
                 tv.setText(test);

@@ -6,21 +6,21 @@ public class Event {
     private String name = "";
     private String description="";
     private int attendees=0;
-    private Date dateTime;
+    private String dateTime;
     private String location="";
+
 
     public Event(){
         dateTime=null;
     }
 
-    public Event(String name, String description, int attendees, Date dateTime, String location)
+    public Event(String name, String description, int attendees, String dateTime, String location)
     {
         this.name=name;
         this.description=description;
         this.attendees=attendees;
-        this.dateTime=dateTime;
         this.location=location;
-
+        this.dateTime=dateTime;
     }
 
     public void setLocation(String l)
@@ -34,7 +34,7 @@ public class Event {
         return name;
     }
 
-    public Date getDateTime()
+    public String getDateTime()
     {
 
         return dateTime;

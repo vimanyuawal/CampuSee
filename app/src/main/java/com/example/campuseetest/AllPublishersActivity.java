@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -116,7 +118,14 @@ public class AllPublishersActivity extends AppCompatActivity {
             row.setLayoutParams(lp);
 
             TextView publisher= new TextView(this);
-            publisher.setText(entry.getKey());
+            String setterText=entry.getKey();
+            SpannableString content=new SpannableString(setterText);
+            content.setSpan(new UnderlineSpan(),0,setterText.length(),0);
+            publisher.setText(content);
+
+
+//            TextView publisher= new TextView(this);
+//            publisher.setText(entry.getKey());
             publisher.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
 
             publisher.setWidth(50);
