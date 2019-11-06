@@ -199,34 +199,34 @@ public class NotificationsActivity extends AppCompatActivity {
 //        ll.addView(row);
 
 //        for(int i=0;i<matchedEvents.size();++i){
-            row= new TableRow(this);
-            lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, 60);
-            row.setLayoutParams(lp);
+        row= new TableRow(this);
+        lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, 60);
+        row.setLayoutParams(lp);
 
-            TextView eventTextBox= new TextView(this);
-            eventTextBox.setText(matchedEvents);
-            eventTextBox.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
+        TextView eventTextBox= new TextView(this);
+        eventTextBox.setText(matchedEvents);
+        eventTextBox.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
 
-            eventTextBox.setWidth(50);
-            eventTextBox.setMaxLines(1);
-            eventTextBox.setPadding(12,12,12,12);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                eventTextBox.setAutoSizeTextTypeUniformWithConfiguration(7,25,1,1);
-            }
-            eventTextBox.setClickable(true);
+        eventTextBox.setWidth(50);
+        eventTextBox.setMaxLines(1);
+        eventTextBox.setPadding(12,12,12,12);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            eventTextBox.setAutoSizeTextTypeUniformWithConfiguration(7,25,1,1);
+        }
+        eventTextBox.setClickable(true);
 
 //            final String identify=entry.getValue();
-            eventTextBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        eventTextBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 //                    Intent intent= new Intent(AllPublishersActivity.this, PublishersEvents.class);
 //                    intent.putExtra("publisherId",entry.getValue());
 //                    startActivity(intent);
-                }
-            });
+            }
+        });
 
-            row.addView(eventTextBox);
-            ll.addView(row);
+        row.addView(eventTextBox);
+        ll.addView(row);
 //        }
 
     }
