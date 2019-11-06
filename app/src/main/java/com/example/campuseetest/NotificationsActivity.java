@@ -44,7 +44,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -57,6 +61,8 @@ public class NotificationsActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
 
     ArrayList<String> matchedEvents=new ArrayList<String>();
+
+    Date currentTime = Calendar.getInstance().getTime();
 
     String[] event= {""};
 
@@ -129,14 +135,27 @@ public class NotificationsActivity extends AppCompatActivity {
 
                                         if(location.equals(locationIdentifier)){
                                             event[0] = (datas2.child("eventName").getValue(String.class));
+                                            String dt = datas2.child("dateTime").getValue(String.class);
+                                            Date date1;
+                                            try {
+                                                date1 = new SimpleDateFormat("dd/MM/yyyy HH:MM:SS").parse(dt);
+                                                if(date1.compareTo(currentTime) > 0){
+                                                    tester=datas2.child("eventName").getValue(String.class);
+                                                }
+                                                else {
+                                                    tester = "notanevent";
+                                                }
+                                            } catch (ParseException e) {
+                                                e.printStackTrace();
+                                            }
 
-                                            tester=datas2.child("eventName").getValue(String.class);
 
                                         }
                                     }
                                     matchedEvents.add(event[0]);
                                     //Continue here
-                                    printEvents(tester);
+                                    if(!tester.equals("notanevent"))
+                                        printEvents(tester);
                                 }
 
                                 @Override
