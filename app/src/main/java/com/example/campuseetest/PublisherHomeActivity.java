@@ -1,13 +1,11 @@
 package com.example.campuseetest;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -18,33 +16,21 @@ import android.widget.TextView;
 
 import android.view.ViewGroup;
 import android.widget.TableRow.LayoutParams;
-import android.widget.TableRow;
-import android.view.ViewGroup.*;
 
-
-
-
-import org.w3c.dom.Text;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class PublisherHomeActivity extends AppCompatActivity {
 
@@ -109,9 +95,36 @@ public class PublisherHomeActivity extends AppCompatActivity {
             }
         });
 
-        final Button button = findViewById(R.id.button_Add);
+//        final Button button = findViewById(R.id.button_Add);
+//
+//        button.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                Intent intent= new Intent(PublisherHomeActivity.this, AddEventActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
-        button.setOnClickListener(new View.OnClickListener() {
+        final Button profile = findViewById(R.id.button4);
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent= new Intent(PublisherHomeActivity.this, PublisherProfilePage.class);
+                startActivity(intent);
+            }
+        });
+
+        final Button home = findViewById(R.id.button5);
+
+        home.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent= new Intent(PublisherHomeActivity.this, PublisherHomeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        final Button addevent = findViewById(R.id.button6);
+
+        addevent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent= new Intent(PublisherHomeActivity.this, AddEventActivity.class);
                 startActivity(intent);

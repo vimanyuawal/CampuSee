@@ -18,9 +18,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".PublisherProfilePage"
+            android:label="@string/title_activity_publisher_profile_page"></activity>
+        <activity
+            android:name=".AddEventActivity"
+            android:label="@string/title_activity_add_event2" />
+        <activity
             android:name=".NotificationsActivity"
             android:label="@string/title_activity_notifications"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -40,7 +46,6 @@
 
         <activity android:name=".AllPublishersActivity" />
         <activity android:name=".ConfirmDetailsActivity" />
-        <activity android:name=".AddEventActivity" />
         <activity android:name=".PublisherHomeActivity" />
         <activity android:name=".PublishersEvents" />
         <activity android:name=".EditEvent" />
