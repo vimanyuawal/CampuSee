@@ -18,8 +18,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class UserProfile  extends AppCompatActivity {
     String identifierVal;
@@ -53,13 +56,33 @@ public class UserProfile  extends AppCompatActivity {
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(UserProfile.this);
 
+        DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+
         name = acct.getDisplayName();
         email = acct.getEmail();
 
         final String key = email.replace('.', ',');
 
-        EditText et = (EditText) findViewById(R.id.plain_text_input);
-        et.setText(name);
+
+        DatabaseReference mNameRef=mRootRef.child("User").child(key).child("name");
+
+
+        mNameRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String data = dataSnapshot.getValue(String.class);
+                EditText et = (EditText) findViewById(R.id.plain_text_input);
+                et.setText(data);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+//        EditText et = (EditText) findViewById(R.id.plain_text_input);
+//        et.setText(name);
 
         sign_out = findViewById(R.id.log_out);
 

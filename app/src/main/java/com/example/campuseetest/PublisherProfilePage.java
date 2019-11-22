@@ -2,6 +2,7 @@ package com.example.campuseetest;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,8 +24,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class PublisherProfilePage extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
@@ -74,8 +78,27 @@ public class PublisherProfilePage extends AppCompatActivity {
 
         key = acct.getEmail().replace('.', ',');
 
+        DatabaseReference mNameRef=mRootRef.child("Publisher").child(key).child("name");
 
-        name.setText(acct.getDisplayName());
+
+        mNameRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String data = dataSnapshot.getValue(String.class);
+                EditText name = (EditText) findViewById(R.id.editText);
+                name.setText(data);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //Change this line
+//        name.setText(acct.getDisplayName());
+
+
         email.setText(acct.getEmail());
 
         final Button profile = findViewById(R.id.button4);

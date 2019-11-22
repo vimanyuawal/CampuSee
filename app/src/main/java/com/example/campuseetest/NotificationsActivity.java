@@ -80,7 +80,9 @@ public class NotificationsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "Email of user is: ");
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "Email of user is: ");
         setContentView(R.layout.activity_notifications);
 
 
@@ -167,7 +169,7 @@ public class NotificationsActivity extends AppCompatActivity {
                                             Date date1;
                                             try {
 
-                                                date1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(dt);
+                                                date1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(dt);
                                                 if(date1.compareTo(currentTime) > 0){
                                                     Log.d(TAG, "currentTime: "+currentTime+" event time: "+date1);
                                                     tester=datas2.child("eventName").getValue(String.class);
@@ -217,16 +219,7 @@ public class NotificationsActivity extends AppCompatActivity {
         TableRow row= new TableRow(this);
         TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, 60);
 
-//        TextView publisherName= new TextView(this);
-//        publisherName.setText("Events in my location");
-//        publisherName.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
-//        publisherName.setWidth(50);
-//
-//        row.addView(publisherName);
-//
-//        ll.addView(row);
 
-//        for(int i=0;i<matchedEvents.size();++i){
         row= new TableRow(this);
         lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, 60);
         row.setLayoutParams(lp);
@@ -243,19 +236,15 @@ public class NotificationsActivity extends AppCompatActivity {
         }
         eventTextBox.setClickable(true);
 
-//            final String identify=entry.getValue();
         eventTextBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                    Intent intent= new Intent(AllPublishersActivity.this, PublishersEvents.class);
-//                    intent.putExtra("publisherId",entry.getValue());
-//                    startActivity(intent);
+
             }
         });
 
         row.addView(eventTextBox);
         ll.addView(row);
-//        }
 
     }
 
@@ -408,6 +397,8 @@ public class NotificationsActivity extends AppCompatActivity {
         });
 
     }
+
+
 
 }
 

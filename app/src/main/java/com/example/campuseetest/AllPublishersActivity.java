@@ -223,4 +223,9 @@ public class AllPublishersActivity extends AppCompatActivity {
         }
 
     }
+
+    public void sendHome(View button) {
+        Intent i = new Intent(this, UserHomeActivity.class);
+        startActivity(i);
+    }
 }

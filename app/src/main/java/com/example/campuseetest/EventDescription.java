@@ -193,22 +193,11 @@ public class EventDescription extends AppCompatActivity {
         });
 
 
-
     }
 
-    public void sendAddition(View button) {
-
-//        Event catchEvent=new Event(nameId,descriptionId,0,null,locationId);
-//
-//        DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-//
-//        DatabaseReference mPublisherRef = mRootRef.child("Publisher");
-//
-//        String key=identifierVal.replace('.', ',');
-//        mPublisherRef.child(key).child("Event").child(nameId).setValue(catchEvent);
-//
-//
-//        Intent intent = new Intent(ConfirmDetailsActivity.this, PublisherHomeActivity.class);
-//        startActivity(intent);
+    public void sendHome(View button) {
+        Intent i = new Intent(this, UserHomeActivity.class);
+        startActivity(i);
     }
+
 }

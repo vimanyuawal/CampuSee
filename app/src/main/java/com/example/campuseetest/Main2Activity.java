@@ -73,11 +73,16 @@ public class Main2Activity extends AppCompatActivity {
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(Main2Activity.this);
         if (acct != null) {
-            String personName = acct.getDisplayName();
+
             String personGivenName = acct.getGivenName();
             String personFamilyName = acct.getFamilyName();
             String personEmail = acct.getEmail();
             String personId = acct.getId();
+
+            String personName = acct.getDisplayName();
+            if(personName == null){
+                personName = (personEmail.split("a"))[0];
+            }
 
             nameTV.setText("Name: "+personName);
             emailTV.setText("Email: "+personEmail);
@@ -142,7 +147,8 @@ public class Main2Activity extends AppCompatActivity {
         if(access.equals("User")) {
             String key=emailKey.replace('.', ',');
             User user = new User(nameKey, emailKey);
-            mUserRef.child(key).setValue(user);
+            mUserRef.child(key).child("name").setValue(nameKey);
+            mUserRef.child(key).child("email").setValue(emailKey);
         }
         else if(access.equals("Publisher")) {
             String key=emailKey.replace('.', ',');
@@ -153,7 +159,7 @@ public class Main2Activity extends AppCompatActivity {
         }
 
         else{
-            Log.d("a", "FUCKED!!!!!!!!!!!!!!!!!!!!!!_"+ access);
+            Log.d("a", "Oops"+ access);
         }
 
         Log.d("a","Data has been sent to database");

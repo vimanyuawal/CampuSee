@@ -50,7 +50,13 @@
             <Button
                 android:id="@+id/Following"
                 android:layout_height="wrap_content"
-                android:onClick="sendAddition"
+                android:layout_width="fill_parent">
+            </Button>
+            <Button
+                android:id="@+id/Back"
+                android:layout_height="wrap_content"
+                android:onClick="sendHome"
+                android:text="Home"
                 android:layout_width="fill_parent">
             </Button>
 
