@@ -52,5 +52,6 @@
     <string name="title_activity_publisher_home2"> Profile Page</string>
     <string name="title_activity_add_event2">AddEventActivity2</string>
     <string name="title_activity_publisher_profile_page">PublisherProfilePage</string>
+    <string name="title_activity_map">Map</string>
 
 </resources>

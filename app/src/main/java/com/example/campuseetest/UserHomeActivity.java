@@ -3,6 +3,7 @@ package com.example.campuseetest;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.maps.MapFragment;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -218,6 +220,15 @@ public class UserHomeActivity extends AppCompatActivity {
         notifs.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent= new Intent(UserHomeActivity.this, NotificationsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button map = findViewById(R.id.map);
+        map.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent= new Intent(UserHomeActivity.this, Map.class);
+                Log.i("a", "We here bitches");
                 startActivity(intent);
             }
         });

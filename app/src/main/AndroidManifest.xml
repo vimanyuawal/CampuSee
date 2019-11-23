@@ -18,8 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".Map"
+            android:label="Map">
+        </activity>
+        <activity
             android:name=".PublisherProfilePage"
-            android:label="@string/title_activity_publisher_profile_page"></activity>
+            android:label="@string/title_activity_publisher_profile_page" />
         <activity
             android:name=".AddEventActivity"
             android:label="@string/title_activity_add_event2" />
@@ -31,6 +35,10 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+<!--        <meta-data-->
+<!--            android:name="com.google.android.geo.API_KEY"-->
+<!--            android:value="AIzaSyB0G5NmQ4vvAqewdII4mcRQktcbVUvo1aQ" />-->
 
         <activity android:name=".UserHomeActivity" />
         <activity android:name=".PubsIFollow" />
