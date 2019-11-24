@@ -40,7 +40,7 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class bigasstest {
+public class BPublisherCreateEventTest {
 
     private UiDevice mUiDevice;
 

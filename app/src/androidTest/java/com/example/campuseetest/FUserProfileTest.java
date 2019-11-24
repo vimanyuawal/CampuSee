@@ -1,10 +1,17 @@
 package com.example.campuseetest;
 
 
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
@@ -15,14 +22,6 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
-
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -36,7 +35,7 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class TestSignIn {
+public class FUserProfileTest {
 
     private UiDevice mUiDevice;
 
@@ -49,7 +48,7 @@ public class TestSignIn {
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void testSignIn() throws UiObjectNotFoundException {
+    public void userProfileTest() throws UiObjectNotFoundException {
         ViewInteraction fn = onView(
                 allOf(withText("Sign in"),
                         childAtPosition(
@@ -61,23 +60,39 @@ public class TestSignIn {
                         isDisplayed()));
         fn.perform(click());
 
-        Log.i("a", "Testing");
-
-        UiObject mText = mUiDevice.findObject(new UiSelector().text("vimanyuawal@gmail.com"));
+        UiObject mText = mUiDevice.findObject(new UiSelector().text("hriday81298.p@gmail.com"));
         mText.click();
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.textView), withText("Publisher Events"),
+        ViewInteraction appCompatButton = onView(
+                allOf(withId(R.id.edit_user), withText("User"),
                         childAtPosition(
                                 allOf(withId(R.id.container),
                                         childAtPosition(
                                                 withId(android.R.id.content),
                                                 0)),
-                                0),
+                                3),
                         isDisplayed()));
-        textView.check(matches(withText("Publisher Events")));
+        appCompatButton.perform(click());
 
+        ViewInteraction button = onView(
+                allOf(withId(R.id.commit_profile_change),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                1),
+                        isDisplayed()));
+        button.check(matches(isDisplayed()));
 
+        ViewInteraction appCompatButton2 = onView(
+                allOf(withId(R.id.log_out), withText("Sign out"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                2),
+                        isDisplayed()));
+        appCompatButton2.perform(click());
     }
 
     private static Matcher<View> childAtPosition(
