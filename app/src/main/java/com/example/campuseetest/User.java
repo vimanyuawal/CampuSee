@@ -19,4 +19,11 @@ public class User {
         this.name = n;
         this.email = e;
     }
+
+    public void setName(String name)
+    {
+        this.name=name;
+    }
+
+
 }

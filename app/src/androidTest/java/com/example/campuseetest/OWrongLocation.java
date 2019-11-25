@@ -5,15 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.IsInstanceOf;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
+import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -25,23 +17,32 @@ import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class XNUserNotifTimeBefore {
+public class OWrongLocation {
 
     private UiDevice mUiDevice;
 
@@ -59,7 +60,7 @@ public class XNUserNotifTimeBefore {
                     "android.permission.ACCESS_FINE_LOCATION");
 
     @Test
-    public void userNotifTimeBefore() throws UiObjectNotFoundException {
+    public void oWrongLocation() throws UiObjectNotFoundException {
         ViewInteraction fn = onView(
                 allOf(withText("Sign in"),
                         childAtPosition(
@@ -94,10 +95,10 @@ public class XNUserNotifTimeBefore {
                                                 0)),
                                 3),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("Test 4"));
+        appCompatEditText.perform(replaceText("Test 5"));
 
         ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.editText3), withText("Test 4"),
+                allOf(withId(R.id.editText3), withText("Test 5"),
                         childAtPosition(
                                 allOf(withId(R.id.container),
                                         childAtPosition(
@@ -107,62 +108,25 @@ public class XNUserNotifTimeBefore {
                         isDisplayed()));
         appCompatEditText2.perform(closeSoftKeyboard());
 
+        ViewInteraction appCompatSpinner = onView(
+                allOf(withId(R.id.locations_spinner),
+                        childAtPosition(
+                                allOf(withId(R.id.container),
+                                        childAtPosition(
+                                                withId(android.R.id.content),
+                                                0)),
+                                5),
+                        isDisplayed()));
+        appCompatSpinner.perform(click());
+
+        DataInteraction appCompatTextView = onData(anything())
+                .inAdapterView(childAtPosition(
+                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
+                        0))
+                .atPosition(1);
+        appCompatTextView.perform(click());
+
         ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.editText4), withText("Enter Event Description"),
-                        childAtPosition(
-                                allOf(withId(R.id.container),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                4),
-                        isDisplayed()));
-        appCompatEditText3.perform(click());
-
-        ViewInteraction appCompatEditText4 = onView(
-                allOf(withId(R.id.editText4), withText("Enter Event Description"),
-                        childAtPosition(
-                                allOf(withId(R.id.container),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                4),
-                        isDisplayed()));
-        appCompatEditText4.perform(click());
-
-        ViewInteraction appCompatEditText5 = onView(
-                allOf(withId(R.id.editText4), withText("Enter Event Description"),
-                        childAtPosition(
-                                allOf(withId(R.id.container),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                4),
-                        isDisplayed()));
-        appCompatEditText5.perform(click());
-
-        ViewInteraction appCompatEditText6 = onView(
-                allOf(withId(R.id.editText4), withText("Enter Event Description"),
-                        childAtPosition(
-                                allOf(withId(R.id.container),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                4),
-                        isDisplayed()));
-        appCompatEditText6.perform(replaceText("desc"));
-
-        ViewInteraction appCompatEditText7 = onView(
-                allOf(withId(R.id.editText4), withText("desc"),
-                        childAtPosition(
-                                allOf(withId(R.id.container),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                4),
-                        isDisplayed()));
-        appCompatEditText7.perform(closeSoftKeyboard());
-
-        ViewInteraction appCompatEditText8 = onView(
                 allOf(withId(R.id.editText6), withText("dd/MM/yyyy HH:mm:ss"),
                         childAtPosition(
                                 allOf(withId(R.id.container),
@@ -171,10 +135,10 @@ public class XNUserNotifTimeBefore {
                                                 0)),
                                 6),
                         isDisplayed()));
-        appCompatEditText8.perform(replaceText("21/05/2019 00:00:00"));
+        appCompatEditText3.perform(replaceText("01/12/2020 00:00:00"));
 
-        ViewInteraction appCompatEditText9 = onView(
-                allOf(withId(R.id.editText6), withText("21/05/2019 00:00:00"),
+        ViewInteraction appCompatEditText4 = onView(
+                allOf(withId(R.id.editText6), withText("01/12/2020 00:00:00"),
                         childAtPosition(
                                 allOf(withId(R.id.container),
                                         childAtPosition(
@@ -182,7 +146,7 @@ public class XNUserNotifTimeBefore {
                                                 0)),
                                 6),
                         isDisplayed()));
-        appCompatEditText9.perform(closeSoftKeyboard());
+        appCompatEditText4.perform(closeSoftKeyboard());
 
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.button), withText("NEXT"),
@@ -241,36 +205,6 @@ public class XNUserNotifTimeBefore {
         mText2.click();
 
         ViewInteraction appCompatButton6 = onView(
-                allOf(withId(R.id.publishers_id), withText("Publishers"),
-                        childAtPosition(
-                                allOf(withId(R.id.container),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                4),
-                        isDisplayed()));
-        appCompatButton6.perform(click());
-
-        ViewInteraction button = onView(
-                allOf(withText("Follow"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.tableLayout2),
-                                        1),
-                                1)));
-        button.perform(scrollTo(), click());
-
-        ViewInteraction appCompatButton7 = onView(
-                allOf(withId(R.id.Back), withText("Home"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                1),
-                        isDisplayed()));
-        appCompatButton7.perform(click());
-
-        ViewInteraction appCompatButton8 = onView(
                 allOf(withId(R.id.notifcations), withText("Notifications"),
                         childAtPosition(
                                 allOf(withId(R.id.container),
@@ -279,50 +213,11 @@ public class XNUserNotifTimeBefore {
                                                 0)),
                                 6),
                         isDisplayed()));
-        appCompatButton8.perform(click());
-
-        ViewInteraction scrollView = onView(
-                allOf(childAtPosition(
-                        childAtPosition(
-                                IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class),
-                                1),
-                        0),
-                        isDisplayed()));
-        scrollView.check(matches(isDisplayed()));
+        appCompatButton6.perform(click());
 
         pressBack();
 
-        ViewInteraction appCompatButton9 = onView(
-                allOf(withId(R.id.publishers_id), withText("Publishers"),
-                        childAtPosition(
-                                allOf(withId(R.id.container),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                4),
-                        isDisplayed()));
-        appCompatButton9.perform(click());
-
-        ViewInteraction button2 = onView(
-                allOf(withText("Unfollow"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.tableLayout2),
-                                        1),
-                                1)));
-        button2.perform(scrollTo(), click());
-
-        ViewInteraction appCompatButton10 = onView(
-                allOf(withId(R.id.Back), withText("Home"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                1),
-                        isDisplayed()));
-        appCompatButton10.perform(click());
-
-        ViewInteraction appCompatButton11 = onView(
+        ViewInteraction appCompatButton7 = onView(
                 allOf(withId(R.id.edit_user), withText("User"),
                         childAtPosition(
                                 allOf(withId(R.id.container),
@@ -331,9 +226,9 @@ public class XNUserNotifTimeBefore {
                                                 0)),
                                 3),
                         isDisplayed()));
-        appCompatButton11.perform(click());
+        appCompatButton7.perform(click());
 
-        ViewInteraction appCompatButton12 = onView(
+        ViewInteraction appCompatButton8 = onView(
                 allOf(withId(R.id.log_out), withText("Sign out"),
                         childAtPosition(
                                 childAtPosition(
@@ -341,7 +236,7 @@ public class XNUserNotifTimeBefore {
                                         0),
                                 2),
                         isDisplayed()));
-        appCompatButton12.perform(click());
+        appCompatButton8.perform(click());
     }
 
     private static Matcher<View> childAtPosition(

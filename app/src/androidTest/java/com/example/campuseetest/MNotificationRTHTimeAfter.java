@@ -52,10 +52,6 @@ public class MNotificationRTHTimeAfter {
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    @Rule
-    public GrantPermissionRule mGrantPermissionRule =
-            GrantPermissionRule.grant(
-                    "android.permission.ACCESS_FINE_LOCATION");
 
     @Test
     public void notificationRTHTimeAfter() throws UiObjectNotFoundException {
@@ -184,35 +180,6 @@ public class MNotificationRTHTimeAfter {
         UiObject mText2 = mUiDevice.findObject(new UiSelector().text("hriday81298.p@gmail.com"));
         mText2.click();
 
-        ViewInteraction appCompatButton6 = onView(
-                allOf(withId(R.id.publishers_id), withText("Publishers"),
-                        childAtPosition(
-                                allOf(withId(R.id.container),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                4),
-                        isDisplayed()));
-        appCompatButton6.perform(click());
-
-        ViewInteraction button = onView(
-                allOf(withText("Follow"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.tableLayout2),
-                                        1),
-                                1)));
-        button.perform(scrollTo(), click());
-
-        ViewInteraction appCompatButton7 = onView(
-                allOf(withId(R.id.Back), withText("Home"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                1),
-                        isDisplayed()));
-        appCompatButton7.perform(click());
 
         ViewInteraction appCompatButton8 = onView(
                 allOf(withId(R.id.notifcations), withText("Notifications"),
@@ -237,27 +204,6 @@ public class MNotificationRTHTimeAfter {
 
         pressBack();
 
-        ViewInteraction appCompatButton9 = onView(
-                allOf(withId(R.id.publishers_id), withText("Publishers"),
-                        childAtPosition(
-                                allOf(withId(R.id.container),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                4),
-                        isDisplayed()));
-        appCompatButton9.perform(click());
-
-        ViewInteraction button2 = onView(
-                allOf(withText("Unfollow"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.tableLayout2),
-                                        1),
-                                1)));
-        button2.perform(scrollTo(), click());
-
-        pressBack();
 
         ViewInteraction appCompatButton10 = onView(
                 allOf(withId(R.id.edit_user), withText("User"),

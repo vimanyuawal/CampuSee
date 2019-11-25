@@ -398,6 +398,16 @@ public class NotificationsActivity extends AppCompatActivity {
 
     }
 
+    String notification = "";
+
+    public void setNotification(String n){
+        notification = n;
+    }
+
+    public String getNotification(){
+        return notification;
+    }
+
 
 
 }

@@ -92,6 +92,7 @@ public class AllPublishersActivity extends AppCompatActivity {
         });
     }
 
+
     public void init(HashMap<String,String> map){
 
         final ArrayList<String> myList = (ArrayList<String>) getIntent().getSerializableExtra("mylist");

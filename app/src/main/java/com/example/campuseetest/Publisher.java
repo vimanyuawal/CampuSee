@@ -21,4 +21,15 @@ public class Publisher {
     public List<Event> getEvents(){
         return pubEvents;
     }
+
+    public void setEvents( Event e)
+    {
+
+        pubEvents.add(e);
+    }
+
+    public void setName(String name)
+    {
+        this.name=name;
+    }
 }

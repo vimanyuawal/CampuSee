@@ -37,7 +37,7 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class XUserAbleToFollow {
+public class JUserAbleToFollow {
 
     private UiDevice mUiDevice;
 
@@ -50,7 +50,7 @@ public class XUserAbleToFollow {
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void userAbleToFollow() throws UiObjectNotFoundException {
+    public void jUserAbleToFollow() throws UiObjectNotFoundException {
         ViewInteraction fn = onView(
                 allOf(withText("Sign in"),
                         childAtPosition(
@@ -114,7 +114,7 @@ public class XUserAbleToFollow {
                                         0),
                                 0),
                         isDisplayed()));
-        textView.check(matches(withText("vimanyuawal@gmail.com ")));
+        textView.check(matches(isDisplayed()));
 
         pressBack();
 

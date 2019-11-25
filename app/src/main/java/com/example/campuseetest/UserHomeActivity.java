@@ -330,4 +330,8 @@ public class UserHomeActivity extends AppCompatActivity {
             ll.addView(row);
         }
     }
+
+    public boolean checkAdd(){
+        return true;
+    }
 }

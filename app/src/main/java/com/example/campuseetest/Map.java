@@ -124,5 +124,15 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback {
 
     }
 
+    String l = "";
+
+    public void setLocation(String loc){
+        l = loc;
+    }
+
+    public String getLocation(){
+        return l;
+    }
+
 }
 
