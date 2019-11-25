@@ -24,6 +24,7 @@ import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -92,6 +93,30 @@ public class CTestPublisherEventDescription {
                                 2),
                         isDisplayed()));
         textView3.check(matches(withText("Event Location= RTH")));
+
+        pressBack();
+
+        ViewInteraction appCompatButton4 = onView(
+                allOf(withId(R.id.button4), withText("Profile"),
+                        childAtPosition(
+                                allOf(withId(R.id.container),
+                                        childAtPosition(
+                                                withId(android.R.id.content),
+                                                0)),
+                                3),
+                        isDisplayed()));
+        appCompatButton4.perform(click());
+
+        ViewInteraction appCompatButton5 = onView(
+                allOf(withId(R.id.log_out), withText("Sign Out"),
+                        childAtPosition(
+                                allOf(withId(R.id.container),
+                                        childAtPosition(
+                                                withId(android.R.id.content),
+                                                0)),
+                                11),
+                        isDisplayed()));
+        appCompatButton5.perform(click());
     }
 
     private static Matcher<View> childAtPosition(

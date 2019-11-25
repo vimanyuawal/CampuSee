@@ -53,7 +53,7 @@ public class BPublisherCreateEventTest {
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void bigasstest() throws UiObjectNotFoundException {
+    public void BPublisherCreateEventTest() throws UiObjectNotFoundException {
         ViewInteraction fn = onView(
                 allOf(withText("Sign in"),
                         childAtPosition(
