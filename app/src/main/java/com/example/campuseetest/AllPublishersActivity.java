@@ -105,8 +105,16 @@ public class AllPublishersActivity extends AppCompatActivity {
         publisherName.setText("Publisher Name");
         publisherName.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
         publisherName.setWidth(50);
+        publisherName.setTextSize(15);
+
+        TextView statusName= new TextView(this);
+        statusName.setText("Status");
+        statusName.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
+        statusName.setWidth(50);
+        statusName.setTextSize(15);
 
         row.addView(publisherName);
+        row.addView(statusName);
 
         ll.addView(row);
 
@@ -150,14 +158,17 @@ public class AllPublishersActivity extends AppCompatActivity {
 
             //create whatever follow and unfollow state variable as necessary
             final Button following= new Button(this);
+            following.setWidth(10);
             following.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
             if(myList.contains(entry.getValue())) {
                 following.setText("Unfollow");
+
 //                counter=0;
             }
             else {
                 following.setText("Follow");
+
 //                counter=1;
             }
 

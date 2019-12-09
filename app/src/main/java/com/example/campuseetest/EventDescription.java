@@ -151,6 +151,7 @@ public class EventDescription extends AppCompatActivity {
                 else{
                     following.setText("Going");
 
+
                     String test=eventName;
                     String key=identifierVal.replace('.', ',');
 

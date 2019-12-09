@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,10 +71,9 @@ public class PubsIFollow extends AppCompatActivity {
 
                     String x=datas2.getValue(String.class);
                     curList.add(x);
-
                     test=test+x+"\n";
-                }
 
+                }
 
 
                 TextView tv = (TextView)findViewById(R.id.TextViewTitle);
@@ -86,4 +87,10 @@ public class PubsIFollow extends AppCompatActivity {
             }
         });
     }
+
+    public void sendHome(View button) {
+        Intent i = new Intent(this, UserHomeActivity.class);
+        startActivity(i);
+    }
+
 }

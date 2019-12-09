@@ -63,19 +63,22 @@ public class UserHomeActivity extends AppCompatActivity {
         eventTitle.setText("Event");
         eventTitle.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
         eventTitle.setWidth(50);
+        eventTitle.setTextSize(20);
         TextView timeTitle= new TextView(this);
         timeTitle.setText("Location");
         timeTitle.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
         timeTitle.setWidth(50);
+        timeTitle.setTextSize(20);
         TextView locationTitle= new TextView(this);
         locationTitle.setText("Time");
         locationTitle.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
         locationTitle.setWidth(50);
-
+        locationTitle.setTextSize(20);
         TextView attendees= new TextView(this);
         attendees.setText("Attendees");
         attendees.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
         attendees.setWidth(50);
+        attendees.setTextSize(19);
 
         row.addView(eventTitle);
         row.addView(timeTitle);

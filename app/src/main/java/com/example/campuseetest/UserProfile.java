@@ -1,5 +1,7 @@
 package com.example.campuseetest;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -98,18 +100,51 @@ public class UserProfile  extends AppCompatActivity {
 
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                //changes started
                 EditText n = (EditText) findViewById(R.id.plain_text_input);
                 String newName = n.getText().toString();
+                if (validationSuccess(newName)) {
 
-                mUserRef.child(key).child("name").setValue(newName);
+                    mUserRef.child(key).child("name").setValue(newName);
 
-                Intent intent= new Intent(UserProfile.this, UserHomeActivity.class);
-                startActivity(intent);
+                    Intent intent= new Intent(UserProfile.this, UserHomeActivity.class);
+                    startActivity(intent);
+                } else {
+                    AlertDialog();
+                }
+
+                //changes ended
+
             }
         });
 
     }
 
+    //changes started
+    private Boolean validationSuccess(String name) {
+        if (name.equals("")) {
+            Toast.makeText(getApplicationContext(), "Please enter name", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+
+        return true;
+    }
+
+    private void AlertDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(UserProfile.this);
+        alertDialogBuilder.setMessage("Oops, there appears to have been an invalid input. Please try again.").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+
+    }
+
+    //changes ended
     private void signOut() {
         mGoogleSignInClient.signOut()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {

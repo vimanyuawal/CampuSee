@@ -5,60 +5,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EventDescription">
+
     <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/ScrollView01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical">
+        android:layout_width="350dp"
+        android:layout_height="528dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:layout_width="fill_parent"
-            android:orientation="vertical"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/TextViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Current Event Details"
-                android:textSize="10pt">
-            </TextView>
+                android:textAlignment="center"
+                android:layout_marginBottom="40dp"
+                android:layout_marginLeft="65dp"
+                android:textSize="10pt"></TextView>
 
             <TextView
                 android:id="@+id/nameShowing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10pt">
-            </TextView>
+                android:textSize="10pt"></TextView>
+
             <TextView
                 android:id="@+id/descriptionShowing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10pt">
-            </TextView>
+                android:textSize="10pt"></TextView>
+
             <TextView
                 android:id="@+id/locationShowing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10pt">
-            </TextView>
+                android:textSize="10pt"></TextView>
+
             <TextView
                 android:id="@+id/dateTimeShowing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10pt">
-            </TextView>
+                android:textSize="10pt"
+                android:layout_marginLeft="-20dp"></TextView>
+
             <Button
                 android:id="@+id/Following"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="fill_parent">
-            </Button>
+                android:layout_marginTop="200dp"
+                android:background="@color/button_color"></Button>
+
             <Button
                 android:id="@+id/Back"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/button_color"
                 android:onClick="sendHome"
-                android:text="Home"
-                android:layout_width="fill_parent">
-            </Button>
+                android:text="Home"></Button>
 
 
         </LinearLayout>

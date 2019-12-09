@@ -67,14 +67,14 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
             // Get the geofences that were triggered. A single event can trigger
             // multiple geofences.
 
-                List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
+            List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
 
-                Log.d(TAG, "Entire triggeringGeofences: " + triggeringGeofences.toString());
+            Log.d(TAG, "Entire triggeringGeofences: " + triggeringGeofences.toString());
 
-                Log.d(TAG, "Entering geofence: " + triggeringGeofences.get(0).toString());
+            Log.d(TAG, "Entering geofence: " + triggeringGeofences.get(0).toString());
 
-                DatabaseReference root = FirebaseDatabase.getInstance().getReference();
-                root.child("User").child(key).child("Location").setValue(triggeringGeofences.get(0).getRequestId());
+            DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+            root.child("User").child(key).child("Location").setValue(triggeringGeofences.get(0).getRequestId());
 
 
 

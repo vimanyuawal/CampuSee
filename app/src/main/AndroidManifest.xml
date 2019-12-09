@@ -13,26 +13,30 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".Map"
-            android:label="Map">
+            android:label="Map"
+            android:theme="@style/CustomActionBarTheme">
         </activity>
+
         <activity
             android:name=".PublisherProfilePage"
             android:label="Profile Page"
             android:theme="@style/CustomActionBarTheme"/>
+
         <activity
             android:name=".AddEventActivity"
             android:label="@string/event_details_title"
             android:theme="@style/CustomActionBarTheme"/>
+
         <activity
             android:name=".NotificationsActivity"
-            android:label="@string/title_notifications"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Notifications"
+            android:theme="@style/CustomActionBarTheme"/>
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -42,8 +46,15 @@
 <!--            android:name="com.google.android.geo.API_KEY"-->
 <!--            android:value="AIzaSyB0G5NmQ4vvAqewdII4mcRQktcbVUvo1aQ" />-->
 
-        <activity android:name=".UserHomeActivity" />
-        <activity android:name=".PubsIFollow" />
+        <activity
+            android:name=".UserHomeActivity"
+            android:label="My Events"
+            android:theme="@style/CustomActionBarTheme"/>
+
+        <activity
+            android:name=".PubsIFollow"
+            android:label="Publishers I Follow"
+            android:theme="@style/CustomActionBarTheme"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -57,7 +68,10 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".AllPublishersActivity" />
+        <activity
+            android:name=".AllPublishersActivity"
+            android:label="All Publishers"
+            android:theme="@style/CustomActionBarTheme"/>
 
         <activity
             android:name=".ConfirmDetailsActivity"
@@ -69,26 +83,44 @@
             android:label="Publisher Events"
             android:theme="@style/CustomActionBarTheme"/>
 
-        <activity android:name=".PublishersEvents" />
+        <activity
+            android:name=".PublishersEvents"
+            android:label="Publisher's Events"
+            android:theme="@style/CustomActionBarTheme"/>
 
         <activity
             android:name=".EditEvent"
             android:label="Edit Event Details Here"
             android:theme="@style/CustomActionBarTheme"/>
 
-        <activity android:name=".UserProfile" />
-        <activity android:name=".EventDescription" />
+        <activity
+            android:name=".UserProfile"
+            android:label="Profile Page"
+            android:theme="@style/CustomActionBarTheme"/>
+
+        <activity
+            android:name=".EventDescription"
+            android:label="Event Description"
+            android:theme="@style/CustomActionBarTheme"/>
+
         <activity
             android:name=".Main2Activity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainActivity">
+            android:label="Choose an option"
+            android:theme="@style/CustomActionBarTheme" />
+
+        <activity
+            android:name=".MainActivity"
+            android:label=" "
+            android:theme="@style/CustomActionBarTheme"
+            >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
     </application>
 
 </manifest>

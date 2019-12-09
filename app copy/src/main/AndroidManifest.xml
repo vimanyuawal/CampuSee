@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.campuseetest">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Grant the location access permission -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Map"
+            android:label="Map">
+        </activity>
+        <activity
+            android:name=".PublisherProfilePage"
+            android:label="Profile Page"
+            android:theme="@style/CustomActionBarTheme"/>
+        <activity
+            android:name=".AddEventActivity"
+            android:label="@string/event_details_title"
+            android:theme="@style/CustomActionBarTheme"/>
+        <activity
+            android:name=".NotificationsActivity"
+            android:label="@string/title_notifications"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+<!--        <meta-data-->
+<!--            android:name="com.google.android.geo.API_KEY"-->
+<!--            android:value="AIzaSyB0G5NmQ4vvAqewdII4mcRQktcbVUvo1aQ" />-->
+
+        <activity android:name=".UserHomeActivity" />
+        <activity android:name=".PubsIFollow" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAQ8M_rVC4Cqzf8AuHfm8PiKxEv5irugPQ" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <receiver
+            android:name=".GeofenceBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".AllPublishersActivity" />
+
+        <activity
+            android:name=".ConfirmDetailsActivity"
+            android:label="Confirm Event Details"
+            android:theme="@style/CustomActionBarTheme"/>
+
+        <activity
+            android:name=".PublisherHomeActivity"
+            android:label="Publisher Events"
+            android:theme="@style/CustomActionBarTheme"/>
+
+        <activity android:name=".PublishersEvents" />
+
+        <activity
+            android:name=".EditEvent"
+            android:label="Edit Event Details Here"
+            android:theme="@style/CustomActionBarTheme"/>
+
+        <activity android:name=".UserProfile" />
+        <activity android:name=".EventDescription" />
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

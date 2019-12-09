@@ -1,5 +1,7 @@
 package com.example.campuseetest;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -133,17 +135,53 @@ public class PublisherProfilePage extends AppCompatActivity {
 
         editEvent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent= new Intent(PublisherProfilePage.this, PublisherHomeActivity.class);
+                //added changes
                 EditText n = (EditText) findViewById(R.id.editText);
                 String newName = n.getText().toString();
+                if (validationSuccess(newName)) {
 
-                mPubRef.child(key).child("name").setValue(newName);
-                startActivity(intent);
+                    Intent intent= new Intent(PublisherProfilePage.this, PublisherHomeActivity.class);
+
+
+
+                    mPubRef.child(key).child("name").setValue(newName);
+                    startActivity(intent);
+                } else {
+                    AlertDialog();
+                }
+
+                //changed ended
 
             }
         });
-        
+
     }
+
+    //added changes
+    private Boolean validationSuccess(String name) {
+        if (name.equals("")) {
+            Toast.makeText(getApplicationContext(), "Please enter name", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+
+        return true;
+    }
+
+    private void AlertDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(PublisherProfilePage.this);
+        alertDialogBuilder.setMessage("Oops, there appears to have been an invalid input. Please try again.").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+
+    }
+    //changed ended
+
 
     private void signOut() {
         mGoogleSignInClient.signOut()

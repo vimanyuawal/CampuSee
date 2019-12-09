@@ -6,4 +6,5 @@
     <color name="actionbar_background">#CA130D</color>
     <color name="actionbar_text">#ffcc00</color>
     <color name="button_color">#ffcc00</color>
+    <color name="mainpagecolor">#FFFFFF</color>
 </resources>

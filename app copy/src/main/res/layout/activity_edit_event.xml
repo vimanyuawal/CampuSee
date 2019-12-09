@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditEvent">
+
+    <ScrollView
+        android:id="@+id/ScrollView01"
+        android:layout_width="353dp"
+        android:layout_height="552dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.497">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <!--Put form controls here-->
+
+            <TextView
+                android:id="@+id/eventNameField"
+                android:layout_width="fill_parent"
+                android:layout_height="51dp"
+                android:hint="Event Name"
+                android:inputType="textPersonName"
+                android:textSize="18sp"
+                android:layout_marginBottom="20px"></TextView>
+
+            <TextView
+                android:id="@+id/eventLocationField"
+                android:layout_width="fill_parent"
+                android:layout_height="61dp"
+                android:hint="Event Location"
+                android:inputType="textPersonName"
+                android:textSize="18sp"
+                android:layout_marginBottom="20px"></TextView>
+
+            <EditText
+                android:id="@+id/eventDescriptionField"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Event Description"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:layout_marginBottom="20px"></EditText>
+
+            <EditText
+                android:id="@+id/eventDateTimeField"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Event Date and Time"
+                android:inputType="textPersonName"
+                android:layout_marginBottom="120px"></EditText>
+
+            <Button
+                android:id="@+id/ButtonSendFeedback"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:onClick="sendFeedback"
+                android:text="Edit Event"
+                android:background="@color/button_color"
+                android:layout_marginBottom="20px"></Button>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

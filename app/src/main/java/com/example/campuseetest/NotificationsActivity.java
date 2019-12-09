@@ -131,6 +131,7 @@ public class NotificationsActivity extends AppCompatActivity {
         publisherName.setText("Events in my location");
         publisherName.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
         publisherName.setWidth(50);
+        publisherName.setTextSize(30);
 
         row.addView(publisherName);
 
@@ -410,6 +411,11 @@ public class NotificationsActivity extends AppCompatActivity {
 
     public String getNotification(){
         return notification;
+    }
+
+    public void sendHome(View button) {
+        Intent i = new Intent(this, UserHomeActivity.class);
+        startActivity(i);
     }
 
 

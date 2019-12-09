@@ -3,11 +3,14 @@ package com.example.campuseetest;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -20,7 +23,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class EditEvent extends AppCompatActivity {
@@ -96,25 +102,103 @@ public class EditEvent extends AppCompatActivity {
 
         //Step 1: Send to confirm details page
 
-        final EditText descriptionField = (EditText) findViewById(R.id.eventDescriptionField);
-        String description = descriptionField.getText().toString();
+        //start added changes
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText descriptionField = (EditText) findViewById(R.id.eventDescriptionField);
+                String description = descriptionField.getText().toString();
 
-        final EditText DateTimeField = (EditText) findViewById(R.id.eventDateTimeField);
-        String dateTime = DateTimeField.getText().toString();
+                final EditText DateTimeField = (EditText) findViewById(R.id.eventDateTimeField);
+                String dateTime = DateTimeField.getText().toString();
 
-        //update data
-        //need to use .setValue
-        DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+                if (validationSuccess( description, dateTime)) {
+                    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
 
-        DatabaseReference mEventsRef=mRootRef.child("Publisher").child(key).child("Event").getRef();
+                    DatabaseReference mEventsRef=mRootRef.child("Publisher").child(key).child("Event").getRef();
 
-        mEventsRef.child(nameC).child("description").setValue(description);
+                    mEventsRef.child(nameC).child("description").setValue(description);
 //        mEventsRef.child(nameC).child("location").setValue(location);
-        mEventsRef.child(nameC).child("dateTime").setValue(dateTime);
+                    mEventsRef.child(nameC).child("dateTime").setValue(dateTime);
+                    Intent intent = new Intent(EditEvent.this, PublisherHomeActivity.class);
+                    startActivity(intent);
+                } else {
+                    AlertDialog();
+                }
+            }
+        });
 
-        //redirect to Publisher Home Page
-        Intent intent = new Intent(EditEvent.this, PublisherHomeActivity.class);
-        startActivity(intent);
+
+        //end changes
+
+
+
 
     }
+
+    //started changes
+    private Boolean validationSuccess(String description, String date) {
+
+
+        if (description.equals("")) {
+            Toast.makeText(getApplicationContext(), "Please enter description", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (date.equals("")) {
+            Toast.makeText(getApplicationContext(), "Please enter date", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(validateJavaDate(date) == false)
+        {
+            Toast.makeText(getApplicationContext(), "Please enter proper date format", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+
+        return true;
+    }
+
+    private void AlertDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EditEvent.this);
+        alertDialogBuilder.setMessage("Oops, there appears to have been an invalid input. Please try again.").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+
+    }
+
+    public static boolean validateJavaDate(String strDate)
+    {
+
+        /*
+         * Set preferred date format,
+         * For example MM-dd-yyyy, MM.dd.yyyy,dd.MM.yyyy etc.*/
+        SimpleDateFormat sdfrmt = new SimpleDateFormat("dd/M/yyyy hh:mm:ss");
+        sdfrmt.setLenient(false);
+        /* Create Date object
+         * parse the string into date
+         */
+        try
+        {
+            Date javaDate = sdfrmt.parse(strDate);
+
+        }
+        /* Date format is invalid */
+        catch (ParseException e)
+        {
+
+            return false;
+        }
+        /* Return true if date format is valid */
+        return true;
+
+    }
+    //changes ended
+
 }
