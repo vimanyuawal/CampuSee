@@ -276,6 +276,7 @@ public class NotificationsActivity extends AppCompatActivity {
         builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
         builder.addGeofences(geofenceList);
 
+
         Log.d(TAG, "builder: " + geofenceList.toString());
 
 
@@ -293,7 +294,10 @@ public class NotificationsActivity extends AppCompatActivity {
                         latitude,
                         longitude,
                         radius
+
                 )
+                .setNotificationResponsiveness(50)
+                .setLoiteringDelay(0)
                 .setExpirationDuration(Geofence.NEVER_EXPIRE)
                 .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
                         Geofence.GEOFENCE_TRANSITION_EXIT)
