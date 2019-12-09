@@ -146,20 +146,26 @@ public class PublisherHomeActivity extends AppCompatActivity {
         eventTitle.setText("Event");
         eventTitle.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
         eventTitle.setWidth(50);
+        eventTitle.setTextSize(20);
+        eventTitle.setPadding(0,2,2,80);
         TextView timeTitle= new TextView(this);
         timeTitle.setText("Location");
         timeTitle.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
         timeTitle.setWidth(50);
+        timeTitle.setTextSize(20);
+        timeTitle.setPadding(2,2,2,80);
         TextView locationTitle= new TextView(this);
         locationTitle.setText("Time");
         locationTitle.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
         locationTitle.setWidth(50);
-
+        locationTitle.setTextSize(20);
+        locationTitle.setPadding(2,2,2,80);
         TextView attendees= new TextView(this);
         attendees.setText("Attendees");
         attendees.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
         attendees.setWidth(50);
-
+        attendees.setTextSize(19);
+        attendees.setPadding(2,2,2,80);
         row.addView(eventTitle);
         row.addView(timeTitle);
         row.addView(locationTitle);

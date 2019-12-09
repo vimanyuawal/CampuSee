@@ -14,7 +14,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.497">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -22,28 +23,24 @@
             android:orientation="vertical">
 
             <!--Put form controls here-->
-            <TextView
-                android:id="@+id/TextViewTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Edit Event Details Here"
-                android:textSize="10pt"></TextView>
 
             <TextView
                 android:id="@+id/eventNameField"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="51dp"
                 android:hint="Event Name"
                 android:inputType="textPersonName"
-                android:textSize="18sp"></TextView>
+                android:textSize="18sp"
+                android:layout_marginBottom="20px"></TextView>
 
             <TextView
                 android:id="@+id/eventLocationField"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="61dp"
                 android:hint="Event Location"
                 android:inputType="textPersonName"
-                android:textSize="18sp"></TextView>
+                android:textSize="18sp"
+                android:layout_marginBottom="20px"></TextView>
 
             <EditText
                 android:id="@+id/eventDescriptionField"
@@ -51,21 +48,25 @@
                 android:layout_height="wrap_content"
                 android:hint="Event Description"
                 android:inputType="textMultiLine"
-                android:lines="5"></EditText>
+                android:lines="5"
+                android:layout_marginBottom="20px"></EditText>
 
             <EditText
                 android:id="@+id/eventDateTimeField"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Event Date and Time"
-                android:inputType="textPersonName"></EditText>
+                android:inputType="textPersonName"
+                android:layout_marginBottom="120px"></EditText>
 
             <Button
                 android:id="@+id/ButtonSendFeedback"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:onClick="sendFeedback"
-                android:text="Edit Event"></Button>
+                android:text="Edit Event"
+                android:background="@color/button_color"
+                android:layout_marginBottom="20px"></Button>
         </LinearLayout>
     </ScrollView>
 

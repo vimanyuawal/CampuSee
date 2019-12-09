@@ -54,4 +54,5 @@
     <string name="title_activity_publisher_profile_page">PublisherProfilePage</string>
     <string name="title_activity_map">Map</string>
 
+    <string name="button_home">Home</string>
 </resources>

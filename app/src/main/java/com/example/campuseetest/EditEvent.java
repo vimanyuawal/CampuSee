@@ -85,6 +85,7 @@ public class EditEvent extends AppCompatActivity {
         editText3.setText("Event Location= "+curLocation, TextView.BufferType.EDITABLE);
         editText3.setTextSize(18);
 
+
         EditText editText4 = (EditText)findViewById(R.id.eventDateTimeField);
         editText4.setText(curDateTime, TextView.BufferType.EDITABLE);
     }

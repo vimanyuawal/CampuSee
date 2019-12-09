@@ -23,13 +23,15 @@
         </activity>
         <activity
             android:name=".PublisherProfilePage"
-            android:label="@string/title_activity_publisher_profile_page" />
+            android:label="Profile Page"
+            android:theme="@style/CustomActionBarTheme"/>
         <activity
             android:name=".AddEventActivity"
-            android:label="@string/title_activity_add_event2" />
+            android:label="@string/event_details_title"
+            android:theme="@style/CustomActionBarTheme"/>
         <activity
             android:name=".NotificationsActivity"
-            android:label="@string/title_activity_notifications"
+            android:label="@string/title_notifications"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
@@ -46,6 +48,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAQ8M_rVC4Cqzf8AuHfm8PiKxEv5irugPQ" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <receiver
             android:name=".GeofenceBroadcastReceiver"
@@ -53,10 +58,24 @@
             android:exported="true" />
 
         <activity android:name=".AllPublishersActivity" />
-        <activity android:name=".ConfirmDetailsActivity" />
-        <activity android:name=".PublisherHomeActivity" />
+
+        <activity
+            android:name=".ConfirmDetailsActivity"
+            android:label="Confirm Event Details"
+            android:theme="@style/CustomActionBarTheme"/>
+
+        <activity
+            android:name=".PublisherHomeActivity"
+            android:label="Publisher Events"
+            android:theme="@style/CustomActionBarTheme"/>
+
         <activity android:name=".PublishersEvents" />
-        <activity android:name=".EditEvent" />
+
+        <activity
+            android:name=".EditEvent"
+            android:label="Edit Event Details Here"
+            android:theme="@style/CustomActionBarTheme"/>
+
         <activity android:name=".UserProfile" />
         <activity android:name=".EventDescription" />
         <activity
