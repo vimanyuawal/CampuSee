@@ -72,7 +72,7 @@ public class AddEventActivity extends AppCompatActivity {
 //
 //        final EditText dateField = (EditText) findViewById(R.id.editText6);
 //        final String date = dateField.getText().toString();
-        
+
 
                 final EditText nameField = (EditText) findViewById(R.id.editText3);
                 final String name = nameField.getText().toString();

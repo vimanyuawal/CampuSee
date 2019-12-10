@@ -103,9 +103,7 @@ public class EditEvent extends AppCompatActivity {
         //Step 1: Send to confirm details page
 
         //start added changes
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        
                 final EditText descriptionField = (EditText) findViewById(R.id.eventDescriptionField);
                 String description = descriptionField.getText().toString();
 
@@ -125,8 +123,7 @@ public class EditEvent extends AppCompatActivity {
                 } else {
                     AlertDialog();
                 }
-            }
-        });
+
 
 
         //end changes
