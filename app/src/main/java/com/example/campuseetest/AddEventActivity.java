@@ -72,14 +72,8 @@ public class AddEventActivity extends AppCompatActivity {
 //
 //        final EditText dateField = (EditText) findViewById(R.id.editText6);
 //        final String date = dateField.getText().toString();
+        
 
-
-
-
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 final EditText nameField = (EditText) findViewById(R.id.editText3);
                 final String name = nameField.getText().toString();
 
@@ -106,10 +100,6 @@ public class AddEventActivity extends AppCompatActivity {
                 } else {
                     AlertDialog();
                 }
-            }
-        });
-
-
     }
 
 
